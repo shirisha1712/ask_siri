@@ -1,0 +1,678 @@
+{% extends "base.html" %}
+
+{% block title %}Real-Time Monitoring - Ask Siri{% endblock %}
+
+{% block content %}
+<div class="container-fluid my-4">
+    <!-- Real-Time Header -->
+    <div class="row mb-4">
+        <div class="col-12 text-center">
+            <h1 class="text-aqua">Real-Time Log Monitoring</h1>
+            <p class="text-muted">Live monitoring and analysis of your log streams</p>
+            <div class="d-flex justify-content-center align-items-center gap-3">
+                <button id="startMonitoring" class="btn btn-success">
+                    <i class="fas fa-play me-2"></i>Start Monitoring
+                </button>
+                <button id="stopMonitoring" class="btn btn-danger" disabled>
+                    <i class="fas fa-stop me-2"></i>Stop Monitoring
+                </button>
+                <div class="status-indicator">
+                    <span id="connectionStatus" class="badge bg-secondary">
+                        <i class="fas fa-circle me-1"></i>Disconnected
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Live Statistics Dashboard -->
+    <div class="row g-4 mb-4">
+        <div class="col-xl-3 col-md-6">
+            <div class="stats-card realtime-stat">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <span id="liveErrors" class="stats-number text-danger">0</span>
+                        <div class="stats-label">Live Errors</div>
+                    </div>
+                    <div class="stat-icon text-danger">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                </div>
+                <div class="stat-trend">
+                    <span id="errorTrend" class="trend-indicator">
+                        <i class="fas fa-arrow-up"></i> +0
+                    </span>
+                    <small class="text-muted">vs last hour</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+            <div class="stats-card realtime-stat">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <span id="liveWarnings" class="stats-number text-warning">0</span>
+                        <div class="stats-label">Live Warnings</div>
+                    </div>
+                    <div class="stat-icon text-warning">
+                        <i class="fas fa-exclamation-circle"></i>
+                    </div>
+                </div>
+                <div class="stat-trend">
+                    <span id="warningTrend" class="trend-indicator">
+                        <i class="fas fa-arrow-up"></i> +0
+                    </span>
+                    <small class="text-muted">vs last hour</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+            <div class="stats-card realtime-stat">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <span id="liveRequests" class="stats-number text-primary">0</span>
+                        <div class="stats-label">Requests/Min</div>
+                    </div>
+                    <div class="stat-icon text-primary">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                </div>
+                <div class="stat-trend">
+                    <span id="requestTrend" class="trend-indicator">
+                        <i class="fas fa-arrow-up"></i> +0
+                    </span>
+                    <small class="text-muted">vs last hour</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+            <div class="stats-card realtime-stat">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <span id="liveResponseTime" class="stats-number text-info">0ms</span>
+                        <div class="stats-label">Avg Response</div>
+                    </div>
+                    <div class="stat-icon text-info">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                </div>
+                <div class="stat-trend">
+                    <span id="responseTrend" class="trend-indicator">
+                        <i class="fas fa-arrow-down"></i> -0ms
+                    </span>
+                    <small class="text-muted">vs last hour</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Live Charts Row -->
+    <div class="row g-4 mb-4">
+        <!-- Real-Time Activity Chart -->
+        <div class="col-lg-8">
+            <div class="chart-container realtime-chart">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="chart-title">Live Activity Stream</h5>
+                    <div class="chart-controls">
+                        <button class="btn btn-sm btn-outline-secondary" onclick="clearChart()">
+                            <i class="fas fa-eraser me-1"></i>Clear
+                        </button>
+                        <div class="btn-group" role="group">
+                            <button class="btn btn-sm btn-outline-primary active" data-timespan="1m">1m</button>
+                            <button class="btn btn-sm btn-outline-primary" data-timespan="5m">5m</button>
+                            <button class="btn btn-sm btn-outline-primary" data-timespan="15m">15m</button>
+                        </div>
+                    </div>
+                </div>
+                <canvas id="realtimeChart" height="300"></canvas>
+            </div>
+        </div>
+
+        <!-- System Health -->
+        <div class="col-lg-4">
+            <div class="server-card h-100">
+                <h5 class="text-aqua mb-3">System Health</h5>
+                
+                <!-- CPU Usage -->
+                <div class="health-metric mb-3">
+                    <div class="d-flex justify-content-between">
+                        <span>CPU Usage</span>
+                        <span id="cpuUsage">0%</span>
+                    </div>
+                    <div class="progress mt-1">
+                        <div id="cpuProgress" class="progress-bar bg-success" style="width: 0%"></div>
+                    </div>
+                </div>
+
+                <!-- Memory Usage -->
+                <div class="health-metric mb-3">
+                    <div class="d-flex justify-content-between">
+                        <span>Memory Usage</span>
+                        <span id="memoryUsage">0%</span>
+                    </div>
+                    <div class="progress mt-1">
+                        <div id="memoryProgress" class="progress-bar bg-info" style="width: 0%"></div>
+                    </div>
+                </div>
+
+                <!-- Disk Usage -->
+                <div class="health-metric mb-3">
+                    <div class="d-flex justify-content-between">
+                        <span>Disk Usage</span>
+                        <span id="diskUsage">0%</span>
+                    </div>
+                    <div class="progress mt-1">
+                        <div id="diskProgress" class="progress-bar bg-warning" style="width: 0%"></div>
+                    </div>
+                </div>
+
+                <!-- Network I/O -->
+                <div class="health-metric">
+                    <div class="d-flex justify-content-between">
+                        <span>Network I/O</span>
+                        <span id="networkIO">0 KB/s</span>
+                    </div>
+                    <div class="progress mt-1">
+                        <div id="networkProgress" class="progress-bar bg-primary" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Live Log Stream -->
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="server-card">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="text-aqua">Live Log Stream</h5>
+                    <div class="stream-controls">
+                        <button id="pauseStream" class="btn btn-sm btn-outline-warning">
+                            <i class="fas fa-pause me-1"></i>Pause
+                        </button>
+                        <button id="clearStream" class="btn btn-sm btn-outline-secondary">
+                            <i class="fas fa-trash me-1"></i>Clear
+                        </button>
+                        <div class="form-check form-switch d-inline-block ms-2">
+                            <input class="form-check-input" type="checkbox" id="autoScroll" checked>
+                            <label class="form-check-label" for="autoScroll">Auto-scroll</label>
+                        </div>
+                    </div>
+                </div>
+                <div id="logStream" class="log-stream">
+                    <div class="text-center text-muted py-4">
+                        <i class="fas fa-stream fa-2x mb-2"></i>
+                        <p>Start monitoring to see live log entries</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Alert Panel -->
+        <div class="col-lg-4">
+            <div class="server-card h-100">
+                <h5 class="text-aqua mb-3">Live Alerts</h5>
+                <div id="alertPanel" class="alert-panel">
+                    <div class="text-center text-muted py-4">
+                        <i class="fas fa-bell fa-2x mb-2"></i>
+                        <p>No alerts at this time</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Configuration Panel -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="server-card">
+                <h5 class="text-aqua mb-3">Monitoring Configuration</h5>
+                <div class="row g-3">
+                    <div class="col-md-3">
+                        <label class="form-label">Update Interval</label>
+                        <select id="updateInterval" class="form-select form-select-sm">
+                            <option value="1">1 second</option>
+                            <option value="5" selected>5 seconds</option>
+                            <option value="10">10 seconds</option>
+                            <option value="30">30 seconds</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Error Threshold</label>
+                        <input type="number" id="errorThreshold" class="form-control form-control-sm" value="10" min="1">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Warning Threshold</label>
+                        <input type="number" id="warningThreshold" class="form-control form-control-sm" value="25" min="1">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Log Source</label>
+                        <select id="logSource" class="form-select form-select-sm">
+                            <option value="all">All Sources</option>
+                            <option value="application">Application</option>
+                            <option value="system">System</option>
+                            <option value="security">Security</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row g-3 mt-2">
+                    <div class="col-md-6">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="enableAlerts" checked>
+                            <label class="form-check-label" for="enableAlerts">
+                                Enable Desktop Notifications
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="enableSounds" checked>
+                            <label class="form-check-label" for="enableSounds">
+                                Enable Alert Sounds
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+let monitoringActive = false;
+let updateInterval;
+let realtimeChart;
+let logStreamPaused = false;
+let ws = null;
+
+document.addEventListener('DOMContentLoaded', function() {
+    initializeRealtimeChart();
+    setupEventListeners();
+    requestNotificationPermission();
+});
+
+function initializeRealtimeChart() {
+    const ctx = document.getElementById('realtimeChart').getContext('2d');
+    
+    realtimeChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: [],
+            datasets: [
+                {
+                    label: 'Errors',
+                    data: [],
+                    borderColor: '#ff3366',
+                    backgroundColor: 'rgba(255, 51, 102, 0.1)',
+                    tension: 0.4,
+                    fill: false
+                },
+                {
+                    label: 'Warnings',
+                    data: [],
+                    borderColor: '#ff9500',
+                    backgroundColor: 'rgba(255, 149, 0, 0.1)',
+                    tension: 0.4,
+                    fill: false
+                },
+                {
+                    label: 'Info',
+                    data: [],
+                    borderColor: '#00d4ff',
+                    backgroundColor: 'rgba(0, 212, 255, 0.1)',
+                    tension: 0.4,
+                    fill: false
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            animation: {
+                duration: 0
+            },
+            plugins: {
+                legend: {
+                    labels: {
+                        color: '#e0e0e0'
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    type: 'linear',
+                    ticks: {
+                        color: '#e0e0e0',
+                        callback: function(value) {
+                            return new Date(value).toLocaleTimeString();
+                        }
+                    },
+                    grid: {
+                        color: 'rgba(255, 255, 255, 0.1)'
+                    }
+                },
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        color: '#e0e0e0'
+                    },
+                    grid: {
+                        color: 'rgba(255, 255, 255, 0.1)'
+                    }
+                }
+            }
+        }
+    });
+}
+
+function setupEventListeners() {
+    document.getElementById('startMonitoring').addEventListener('click', startMonitoring);
+    document.getElementById('stopMonitoring').addEventListener('click', stopMonitoring);
+    document.getElementById('pauseStream').addEventListener('click', toggleStreamPause);
+    document.getElementById('clearStream').addEventListener('click', clearLogStream);
+    
+    // Configuration changes
+    document.getElementById('updateInterval').addEventListener('change', updateMonitoringInterval);
+    document.getElementById('errorThreshold').addEventListener('change', updateThresholds);
+    document.getElementById('warningThreshold').addEventListener('change', updateThresholds);
+}
+
+function startMonitoring() {
+    if (monitoringActive) return;
+    
+    monitoringActive = true;
+    document.getElementById('startMonitoring').disabled = true;
+    document.getElementById('stopMonitoring').disabled = false;
+    document.getElementById('connectionStatus').innerHTML = '<i class="fas fa-circle me-1"></i>Connecting...';
+    document.getElementById('connectionStatus').className = 'badge bg-warning';
+    
+    // Initialize WebSocket connection for real-time data
+    connectWebSocket();
+    
+    // Start polling for metrics
+    const intervalMs = parseInt(document.getElementById('updateInterval').value) * 1000;
+    updateInterval = setInterval(fetchMetrics, intervalMs);
+    
+    // Simulate initial data
+    setTimeout(() => {
+        document.getElementById('connectionStatus').innerHTML = '<i class="fas fa-circle me-1"></i>Connected';
+        document.getElementById('connectionStatus').className = 'badge bg-success';
+        simulateInitialData();
+    }, 1000);
+}
+
+function stopMonitoring() {
+    if (!monitoringActive) return;
+    
+    monitoringActive = false;
+    document.getElementById('startMonitoring').disabled = false;
+    document.getElementById('stopMonitoring').disabled = true;
+    document.getElementById('connectionStatus').innerHTML = '<i class="fas fa-circle me-1"></i>Disconnected';
+    document.getElementById('connectionStatus').className = 'badge bg-secondary';
+    
+    if (updateInterval) {
+        clearInterval(updateInterval);
+    }
+    
+    if (ws) {
+        ws.close();
+    }
+}
+
+function connectWebSocket() {
+    // This would connect to a real WebSocket endpoint
+    // For demo purposes, we'll simulate WebSocket messages
+    simulateWebSocketMessages();
+}
+
+function simulateWebSocketMessages() {
+    if (!monitoringActive) return;
+    
+    setTimeout(() => {
+        if (monitoringActive) {
+            // Simulate incoming log entry
+            const logTypes = ['INFO', 'WARN', 'ERROR'];
+            const logType = logTypes[Math.floor(Math.random() * logTypes.length)];
+            const timestamp = new Date().toISOString();
+            const messages = [
+                'User authentication successful',
+                'Database connection timeout',
+                'API request processed',
+                'Memory usage high',
+                'Cache miss detected',
+                'File upload completed',
+                'Network latency increased'
+            ];
+            const message = messages[Math.floor(Math.random() * messages.length)];
+            
+            addLogEntry(timestamp, logType, message);
+            updateChartData(logType);
+            
+            // Schedule next message
+            simulateWebSocketMessages();
+        }
+    }, Math.random() * 3000 + 1000); // Random interval between 1-4 seconds
+}
+
+function addLogEntry(timestamp, level, message) {
+    if (logStreamPaused) return;
+    
+    const logStream = document.getElementById('logStream');
+    
+    // Clear placeholder if it exists
+    if (logStream.querySelector('.text-center')) {
+        logStream.innerHTML = '';
+    }
+    
+    const entry = document.createElement('div');
+    entry.className = `log-entry log-${level.toLowerCase()}`;
+    entry.innerHTML = `
+        <span class="log-timestamp">${new Date(timestamp).toLocaleTimeString()}</span>
+        <span class="log-level badge bg-${level === 'ERROR' ? 'danger' : level === 'WARN' ? 'warning' : 'info'}">${level}</span>
+        <span class="log-message">${message}</span>
+    `;
+    
+    logStream.appendChild(entry);
+    
+    // Auto-scroll if enabled
+    if (document.getElementById('autoScroll').checked) {
+        logStream.scrollTop = logStream.scrollHeight;
+    }
+    
+    // Limit log entries to prevent memory issues
+    while (logStream.children.length > 100) {
+        logStream.removeChild(logStream.firstChild);
+    }
+    
+    // Check for alerts
+    if (level === 'ERROR' && document.getElementById('enableAlerts').checked) {
+        showAlert('Error detected: ' + message, 'error');
+    }
+}
+
+function updateChartData(logType) {
+    const now = Date.now();
+    const chart = realtimeChart;
+    
+    // Add new data point
+    chart.data.labels.push(now);
+    
+    // Update datasets
+    chart.data.datasets.forEach((dataset, index) => {
+        if (dataset.label === 'Errors' && logType === 'ERROR') {
+            dataset.data.push({x: now, y: dataset.data.length > 0 ? dataset.data[dataset.data.length - 1].y + 1 : 1});
+        } else if (dataset.label === 'Warnings' && logType === 'WARN') {
+            dataset.data.push({x: now, y: dataset.data.length > 0 ? dataset.data[dataset.data.length - 1].y + 1 : 1});
+        } else if (dataset.label === 'Info' && logType === 'INFO') {
+            dataset.data.push({x: now, y: dataset.data.length > 0 ? dataset.data[dataset.data.length - 1].y + 1 : 1});
+        } else {
+            // Add same value as before
+            const lastValue = dataset.data.length > 0 ? dataset.data[dataset.data.length - 1].y : 0;
+            dataset.data.push({x: now, y: lastValue});
+        }
+    });
+    
+    // Keep only last 50 data points
+    if (chart.data.labels.length > 50) {
+        chart.data.labels.shift();
+        chart.data.datasets.forEach(dataset => {
+            dataset.data.shift();
+        });
+    }
+    
+    chart.update('none');
+}
+
+function fetchMetrics() {
+    // Simulate system metrics
+    const cpu = Math.random() * 100;
+    const memory = Math.random() * 100;
+    const disk = Math.random() * 100;
+    const network = Math.random() * 1000;
+    
+    updateSystemMetrics(cpu, memory, disk, network);
+    
+    // Update live statistics
+    updateLiveStats();
+}
+
+function updateSystemMetrics(cpu, memory, disk, network) {
+    document.getElementById('cpuUsage').textContent = cpu.toFixed(1) + '%';
+    document.getElementById('cpuProgress').style.width = cpu + '%';
+    document.getElementById('cpuProgress').className = `progress-bar ${cpu > 80 ? 'bg-danger' : cpu > 60 ? 'bg-warning' : 'bg-success'}`;
+    
+    document.getElementById('memoryUsage').textContent = memory.toFixed(1) + '%';
+    document.getElementById('memoryProgress').style.width = memory + '%';
+    document.getElementById('memoryProgress').className = `progress-bar ${memory > 80 ? 'bg-danger' : memory > 60 ? 'bg-warning' : 'bg-info'}`;
+    
+    document.getElementById('diskUsage').textContent = disk.toFixed(1) + '%';
+    document.getElementById('diskProgress').style.width = disk + '%';
+    document.getElementById('diskProgress').className = `progress-bar ${disk > 90 ? 'bg-danger' : disk > 70 ? 'bg-warning' : 'bg-success'}`;
+    
+    document.getElementById('networkIO').textContent = network.toFixed(0) + ' KB/s';
+    document.getElementById('networkProgress').style.width = Math.min(network / 10, 100) + '%';
+}
+
+function updateLiveStats() {
+    // Simulate live statistics updates
+    const errors = Math.floor(Math.random() * 20);
+    const warnings = Math.floor(Math.random() * 50);
+    const requests = Math.floor(Math.random() * 200);
+    const responseTime = Math.floor(Math.random() * 500) + 50;
+    
+    document.getElementById('liveErrors').textContent = errors;
+    document.getElementById('liveWarnings').textContent = warnings;
+    document.getElementById('liveRequests').textContent = requests;
+    document.getElementById('liveResponseTime').textContent = responseTime + 'ms';
+}
+
+function simulateInitialData() {
+    // Add some initial log entries
+    const sampleLogs = [
+        { level: 'INFO', message: 'Application started successfully' },
+        { level: 'INFO', message: 'Database connection established' },
+        { level: 'WARN', message: 'High memory usage detected' },
+        { level: 'INFO', message: 'User session created' },
+        { level: 'ERROR', message: 'Failed to process request' }
+    ];
+    
+    sampleLogs.forEach((log, index) => {
+        setTimeout(() => {
+            const timestamp = new Date(Date.now() - (sampleLogs.length - index) * 1000).toISOString();
+            addLogEntry(timestamp, log.level, log.message);
+            updateChartData(log.level);
+        }, index * 200);
+    });
+}
+
+function toggleStreamPause() {
+    logStreamPaused = !logStreamPaused;
+    const button = document.getElementById('pauseStream');
+    if (logStreamPaused) {
+        button.innerHTML = '<i class="fas fa-play me-1"></i>Resume';
+        button.className = 'btn btn-sm btn-outline-success';
+    } else {
+        button.innerHTML = '<i class="fas fa-pause me-1"></i>Pause';
+        button.className = 'btn btn-sm btn-outline-warning';
+    }
+}
+
+function clearLogStream() {
+    document.getElementById('logStream').innerHTML = `
+        <div class="text-center text-muted py-4">
+            <i class="fas fa-stream fa-2x mb-2"></i>
+            <p>Log stream cleared</p>
+        </div>
+    `;
+}
+
+function clearChart() {
+    realtimeChart.data.labels = [];
+    realtimeChart.data.datasets.forEach(dataset => {
+        dataset.data = [];
+    });
+    realtimeChart.update();
+}
+
+function updateMonitoringInterval() {
+    if (monitoringActive && updateInterval) {
+        clearInterval(updateInterval);
+        const intervalMs = parseInt(document.getElementById('updateInterval').value) * 1000;
+        updateInterval = setInterval(fetchMetrics, intervalMs);
+    }
+}
+
+function updateThresholds() {
+    // This would update alert thresholds
+    console.log('Thresholds updated');
+}
+
+function showAlert(message, type) {
+    const alertPanel = document.getElementById('alertPanel');
+    
+    // Clear placeholder if it exists
+    if (alertPanel.querySelector('.text-center')) {
+        alertPanel.innerHTML = '';
+    }
+    
+    const alert = document.createElement('div');
+    alert.className = `alert alert-${type === 'error' ? 'danger' : 'warning'} alert-dismissible fade show`;
+    alert.innerHTML = `
+        <div class="d-flex align-items-center">
+            <i class="fas fa-${type === 'error' ? 'exclamation-triangle' : 'exclamation-circle'} me-2"></i>
+            <div>
+                <small class="text-muted">${new Date().toLocaleTimeString()}</small><br>
+                ${message}
+            </div>
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    `;
+    
+    alertPanel.appendChild(alert);
+    
+    // Show desktop notification if enabled
+    if (document.getElementById('enableAlerts').checked && 'Notification' in window && Notification.permission === 'granted') {
+        new Notification('Ask Siri Alert', {
+            body: message,
+            icon: '/static/favicon.ico'
+        });
+    }
+    
+    // Play sound if enabled
+    if (document.getElementById('enableSounds').checked) {
+        // You would play an alert sound here
+        console.log('Alert sound would play');
+    }
+}
+
+function requestNotificationPermission() {
+    if ('Notification' in window && Notification.permission === 'default') {
+        Notification.requestPermission();
+    }
+}
+</script>
+{% endblock %}

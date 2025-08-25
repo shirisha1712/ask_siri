@@ -1,0 +1,573 @@
+{% extends "base.html" %}
+
+{% block title %}Knowledge Base - Ask Siri{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <!-- Knowledge Base Header -->
+    <div class="row mb-5">
+        <div class="col-12 text-center">
+            <h1 class="text-aqua">Log Analysis Knowledge Base</h1>
+            <p class="text-muted">Comprehensive guides and tutorials for mastering log analysis</p>
+            
+            <!-- Search Bar -->
+            <div class="row justify-content-center mt-4">
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <input type="text" id="knowledgeSearch" class="form-control form-control-lg" 
+                               placeholder="Search knowledge base...">
+                        <button class="btn btn-primary" type="button">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Categories Navigation -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <div class="knowledge-nav">
+                <div class="nav nav-pills justify-content-center" role="tablist">
+                    <button class="nav-link active" data-category="all">All Topics</button>
+                    <button class="nav-link" data-category="fundamentals">Fundamentals</button>
+                    <button class="nav-link" data-category="troubleshooting">Troubleshooting</button>
+                    <button class="nav-link" data-category="best-practices">Best Practices</button>
+                    <button class="nav-link" data-category="tools">Tools & Techniques</button>
+                    <button class="nav-link" data-category="advanced">Advanced</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Knowledge Articles Grid -->
+    <div class="row g-4" id="knowledgeGrid">
+        
+        <!-- Fundamentals Category -->
+        <div class="col-lg-4 col-md-6 knowledge-item" data-category="fundamentals">
+            <div class="knowledge-card server-card h-100">
+                <div class="knowledge-icon">
+                    <i class="fas fa-file-alt text-aqua"></i>
+                </div>
+                <h4 class="knowledge-title">What are Log Files?</h4>
+                <p class="knowledge-excerpt">
+                    Understanding the basics of log files, their structure, and why they're essential 
+                    for system monitoring and debugging applications.
+                </p>
+                <div class="knowledge-meta">
+                    <span class="badge bg-primary">Fundamentals</span>
+                    <span class="read-time">5 min read</span>
+                </div>
+                <div class="knowledge-content">
+                    <h5>Introduction to Log Files</h5>
+                    <p>Log files are records of events that occur within a system, application, or network. They serve as a chronological diary of what happens in your technology environment.</p>
+                    
+                    <h6>Key Components of Log Files:</h6>
+                    <ul>
+                        <li><strong>Timestamp:</strong> When the event occurred</li>
+                        <li><strong>Log Level:</strong> Severity of the event (ERROR, WARN, INFO, DEBUG)</li>
+                        <li><strong>Source:</strong> Which component generated the log</li>
+                        <li><strong>Message:</strong> Description of what happened</li>
+                    </ul>
+                    
+                    <h6>Common Log Formats:</h6>
+                    <pre><code>2024-01-15 14:30:25 INFO [WebServer] Request processed successfully
+2024-01-15 14:30:26 ERROR [Database] Connection timeout after 30s
+2024-01-15 14:30:27 WARN [Cache] Memory usage above 80%</code></pre>
+                    
+                    <div class="alert alert-info">
+                        <i class="fas fa-lightbulb me-2"></i>
+                        <strong>Pro Tip:</strong> Understanding log structure is the first step to effective troubleshooting!
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Log Types -->
+        <div class="col-lg-4 col-md-6 knowledge-item" data-category="fundamentals">
+            <div class="knowledge-card server-card h-100">
+                <div class="knowledge-icon">
+                    <i class="fas fa-layer-group text-info"></i>
+                </div>
+                <h4 class="knowledge-title">Types of Log Files</h4>
+                <p class="knowledge-excerpt">
+                    Explore different categories of logs including system logs, application logs, 
+                    security logs, and web server logs with practical examples.
+                </p>
+                <div class="knowledge-meta">
+                    <span class="badge bg-primary">Fundamentals</span>
+                    <span class="read-time">7 min read</span>
+                </div>
+                <div class="knowledge-content">
+                    <h5>Categories of Log Files</h5>
+                    
+                    <h6>1. System Logs</h6>
+                    <p>Operating system events, hardware issues, and system-level processes.</p>
+                    <ul>
+                        <li><strong>Windows:</strong> Event Viewer logs (System, Application, Security)</li>
+                        <li><strong>Linux:</strong> /var/log/syslog, /var/log/messages</li>
+                        <li><strong>macOS:</strong> Console app, /var/log/system.log</li>
+                    </ul>
+                    
+                    <h6>2. Application Logs</h6>
+                    <p>Specific to individual applications and services.</p>
+                    <pre><code>2024-01-15 10:30:00 INFO  [UserService] User login successful: user123
+2024-01-15 10:30:05 ERROR [PaymentService] Transaction failed: insufficient funds</code></pre>
+                    
+                    <h6>3. Web Server Logs</h6>
+                    <p>HTTP requests, responses, and server performance metrics.</p>
+                    <pre><code>192.168.1.100 - - [15/Jan/2024:10:30:00 +0000] "GET /api/users HTTP/1.1" 200 1234</code></pre>
+                    
+                    <h6>4. Security Logs</h6>
+                    <p>Authentication events, authorization attempts, and security incidents.</p>
+                    
+                    <h6>5. Database Logs</h6>
+                    <p>Query performance, connection issues, and transaction records.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Common Errors -->
+        <div class="col-lg-4 col-md-6 knowledge-item" data-category="troubleshooting">
+            <div class="knowledge-card server-card h-100">
+                <div class="knowledge-icon">
+                    <i class="fas fa-exclamation-triangle text-danger"></i>
+                </div>
+                <h4 class="knowledge-title">Common Log Errors</h4>
+                <p class="knowledge-excerpt">
+                    Learn to identify and understand common error patterns, HTTP status codes, 
+                    and database error messages found in log files.
+                </p>
+                <div class="knowledge-meta">
+                    <span class="badge bg-danger">Troubleshooting</span>
+                    <span class="read-time">10 min read</span>
+                </div>
+                <div class="knowledge-content">
+                    <h5>Understanding Common Error Patterns</h5>
+                    
+                    <h6>HTTP Status Code Errors</h6>
+                    <div class="error-codes">
+                        <div class="error-item">
+                            <strong>4xx Client Errors:</strong>
+                            <ul>
+                                <li><code>400 Bad Request</code> - Invalid request syntax</li>
+                                <li><code>401 Unauthorized</code> - Authentication required</li>
+                                <li><code>403 Forbidden</code> - Access denied</li>
+                                <li><code>404 Not Found</code> - Resource doesn't exist</li>
+                                <li><code>429 Too Many Requests</code> - Rate limiting</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="error-item">
+                            <strong>5xx Server Errors:</strong>
+                            <ul>
+                                <li><code>500 Internal Server Error</code> - Server-side issue</li>
+                                <li><code>502 Bad Gateway</code> - Upstream server error</li>
+                                <li><code>503 Service Unavailable</code> - Server overloaded</li>
+                                <li><code>504 Gateway Timeout</code> - Upstream timeout</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h6>Database Error Patterns</h6>
+                    <pre><code>ERROR: connection to database "myapp" failed: FATAL: password authentication failed
+ERROR: duplicate key value violates unique constraint "users_email_key"
+ERROR: relation "missing_table" does not exist
+WARNING: could not obtain lock on relation "users"</code></pre>
+                    
+                    <h6>Application Error Patterns</h6>
+                    <ul>
+                        <li><strong>NullPointerException:</strong> Accessing null objects</li>
+                        <li><strong>OutOfMemoryError:</strong> Insufficient heap space</li>
+                        <li><strong>TimeoutException:</strong> Operations taking too long</li>
+                        <li><strong>ConnectionException:</strong> Network connectivity issues</li>
+                    </ul>
+                    
+                    <div class="alert alert-warning">
+                        <i class="fas fa-exclamation-circle me-2"></i>
+                        <strong>Remember:</strong> Error patterns often indicate systematic issues rather than isolated incidents.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Analysis Techniques -->
+        <div class="col-lg-4 col-md-6 knowledge-item" data-category="tools">
+            <div class="knowledge-card server-card h-100">
+                <div class="knowledge-icon">
+                    <i class="fas fa-search text-success"></i>
+                </div>
+                <h4 class="knowledge-title">Log Analysis Techniques</h4>
+                <p class="knowledge-excerpt">
+                    Master advanced techniques for log analysis including pattern recognition, 
+                    correlation analysis, and root cause identification methods.
+                </p>
+                <div class="knowledge-meta">
+                    <span class="badge bg-success">Tools</span>
+                    <span class="read-time">12 min read</span>
+                </div>
+                <div class="knowledge-content">
+                    <h5>Effective Log Analysis Strategies</h5>
+                    
+                    <h6>1. Pattern Recognition</h6>
+                    <p>Identifying recurring patterns that indicate systematic issues:</p>
+                    <ul>
+                        <li><strong>Frequency Analysis:</strong> How often do specific errors occur?</li>
+                        <li><strong>Time-based Patterns:</strong> Do errors spike at certain times?</li>
+                        <li><strong>Error Clustering:</strong> Do related errors occur together?</li>
+                    </ul>
+                    
+                    <h6>2. Timeline Analysis</h6>
+                    <p>Understanding the sequence of events leading to issues:</p>
+                    <pre><code>14:29:45 INFO  [Auth] User login attempt: user123
+14:29:46 WARN  [Database] High connection count: 95/100
+14:29:47 ERROR [Database] Connection pool exhausted
+14:29:48 ERROR [Auth] Login failed: database unavailable</code></pre>
+                    
+                    <h6>3. Correlation Analysis</h6>
+                    <ul>
+                        <li>Cross-reference logs from multiple systems</li>
+                        <li>Look for related events across different log sources</li>
+                        <li>Identify cause-and-effect relationships</li>
+                    </ul>
+                    
+                    <h6>4. Statistical Analysis</h6>
+                    <ul>
+                        <li><strong>Baseline Establishment:</strong> Normal vs. abnormal patterns</li>
+                        <li><strong>Trend Analysis:</strong> Gradual degradation vs. sudden spikes</li>
+                        <li><strong>Anomaly Detection:</strong> Identifying outliers</li>
+                    </ul>
+                    
+                    <h6>Useful Command-Line Tools</h6>
+                    <pre><code># Count error occurrences
+grep -c "ERROR" application.log
+
+# Find errors in time range
+awk '/2024-01-15 14:30/,/2024-01-15 15:00/' application.log | grep ERROR
+
+# Top error messages
+grep ERROR application.log | sort | uniq -c | sort -nr | head -10</code></pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- Best Practices -->
+        <div class="col-lg-4 col-md-6 knowledge-item" data-category="best-practices">
+            <div class="knowledge-card server-card h-100">
+                <div class="knowledge-icon">
+                    <i class="fas fa-star text-warning"></i>
+                </div>
+                <h4 class="knowledge-title">Log Management Best Practices</h4>
+                <p class="knowledge-excerpt">
+                    Learn industry best practices for log management, retention policies, 
+                    and effective monitoring strategies for production systems.
+                </p>
+                <div class="knowledge-meta">
+                    <span class="badge bg-warning">Best Practices</span>
+                    <span class="read-time">8 min read</span>
+                </div>
+                <div class="knowledge-content">
+                    <h5>Production Log Management Guidelines</h5>
+                    
+                    <h6>1. Log Level Strategy</h6>
+                    <ul>
+                        <li><strong>ERROR:</strong> System failures requiring immediate attention</li>
+                        <li><strong>WARN:</strong> Potential issues that should be monitored</li>
+                        <li><strong>INFO:</strong> General operational messages</li>
+                        <li><strong>DEBUG:</strong> Detailed diagnostic information (dev only)</li>
+                    </ul>
+                    
+                    <h6>2. Structured Logging</h6>
+                    <p>Use consistent, parseable log formats:</p>
+                    <pre><code>{
+  "timestamp": "2024-01-15T14:30:25.123Z",
+  "level": "ERROR",
+  "service": "user-auth",
+  "message": "Authentication failed",
+  "userId": "12345",
+  "ipAddress": "192.168.1.100",
+  "errorCode": "AUTH_001"
+}</code></pre>
+                    
+                    <h6>3. Log Rotation and Retention</h6>
+                    <ul>
+                        <li><strong>Size-based rotation:</strong> 100MB - 1GB per file</li>
+                        <li><strong>Time-based rotation:</strong> Daily for high-volume systems</li>
+                        <li><strong>Retention period:</strong> 30-90 days based on compliance</li>
+                        <li><strong>Compression:</strong> Compress archived logs</li>
+                    </ul>
+                    
+                    <h6>4. Security Considerations</h6>
+                    <ul>
+                        <li>Never log sensitive data (passwords, API keys, PII)</li>
+                        <li>Implement proper access controls</li>
+                        <li>Consider log encryption for sensitive environments</li>
+                        <li>Audit log access and modifications</li>
+                    </ul>
+                    
+                    <h6>5. Performance Impact</h6>
+                    <ul>
+                        <li>Use asynchronous logging to avoid blocking</li>
+                        <li>Monitor log volume and adjust levels accordingly</li>
+                        <li>Consider centralized logging for distributed systems</li>
+                    </ul>
+                    
+                    <div class="alert alert-success">
+                        <i class="fas fa-check-circle me-2"></i>
+                        <strong>Golden Rule:</strong> Log enough to troubleshoot, but not so much that you can't find what you need!
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Troubleshooting Guide -->
+        <div class="col-lg-4 col-md-6 knowledge-item" data-category="troubleshooting">
+            <div class="knowledge-card server-card h-100">
+                <div class="knowledge-icon">
+                    <i class="fas fa-tools text-primary"></i>
+                </div>
+                <h4 class="knowledge-title">Systematic Troubleshooting</h4>
+                <p class="knowledge-excerpt">
+                    Step-by-step troubleshooting methodologies for common system and application 
+                    issues using effective log analysis techniques.
+                </p>
+                <div class="knowledge-meta">
+                    <span class="badge bg-info">Troubleshooting</span>
+                    <span class="read-time">15 min read</span>
+                </div>
+                <div class="knowledge-content">
+                    <h5>Systematic Troubleshooting Approach</h5>
+                    
+                    <h6>Phase 1: Problem Definition</h6>
+                    <ol>
+                        <li><strong>What:</strong> What exactly is the problem?</li>
+                        <li><strong>When:</strong> When did it start? Is it intermittent?</li>
+                        <li><strong>Where:</strong> Which systems/components are affected?</li>
+                        <li><strong>Who:</strong> Which users or processes are impacted?</li>
+                    </ol>
+                    
+                    <h6>Phase 2: Data Collection</h6>
+                    <pre><code># Gather logs from affected timeframe
+grep -r "ERROR\|WARN" /var/log/app* --include="*.log" \
+  | awk '/2024-01-15 14:00/,/2024-01-15 16:00/'
+
+# Check system resources at the time
+sar -u -s 14:00:00 -e 16:00:00  # CPU usage
+sar -r -s 14:00:00 -e 16:00:00  # Memory usage</code></pre>
+                    
+                    <h6>Phase 3: Analysis Framework</h6>
+                    <div class="troubleshooting-framework">
+                        <div class="framework-step">
+                            <h6>🔍 1. Initial Assessment</h6>
+                            <ul>
+                                <li>Identify error patterns and frequency</li>
+                                <li>Check for recent changes or deployments</li>
+                                <li>Verify system health metrics</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="framework-step">
+                            <h6>📊 2. Correlation Analysis</h6>
+                            <ul>
+                                <li>Cross-reference multiple log sources</li>
+                                <li>Look for cascade failures</li>
+                                <li>Timeline reconstruction</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="framework-step">
+                            <h6>🎯 3. Root Cause Identification</h6>
+                            <ul>
+                                <li>Follow the error chain backward</li>
+                                <li>Identify the initial failure point</li>
+                                <li>Validate with additional evidence</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h6>Common Troubleshooting Scenarios</h6>
+                    
+                    <div class="scenario">
+                        <strong>Scenario: High Response Times</strong>
+                        <ol>
+                            <li>Check application logs for slow queries</li>
+                            <li>Review database connection pool metrics</li>
+                            <li>Analyze network latency patterns</li>
+                            <li>Examine garbage collection logs</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="scenario">
+                        <strong>Scenario: Authentication Failures</strong>
+                        <ol>
+                            <li>Check authentication service logs</li>
+                            <li>Review failed login patterns</li>
+                            <li>Verify external dependency status</li>
+                            <li>Examine token expiration issues</li>
+                        </ol>
+                    </div>
+                    
+                    <h6>Documentation Template</h6>
+                    <pre><code>INCIDENT: [Brief description]
+START TIME: [When issue began]
+IMPACT: [What systems/users affected]
+ROOT CAUSE: [Primary cause identified]
+RESOLUTION: [Steps taken to fix]
+PREVENTION: [How to prevent recurrence]</code></pre>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Load More Button -->
+    <div class="row mt-5">
+        <div class="col-12 text-center">
+            <button id="loadMoreBtn" class="btn btn-outline-primary btn-lg">
+                <i class="fas fa-plus me-2"></i>Load More Articles
+            </button>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    setupKnowledgeBase();
+});
+
+function setupKnowledgeBase() {
+    // Category filtering
+    document.querySelectorAll('[data-category]').forEach(button => {
+        if (button.classList.contains('nav-link')) {
+            button.addEventListener('click', function() {
+                const category = this.dataset.category;
+                filterByCategory(category);
+                
+                // Update active state
+                document.querySelectorAll('.nav-link').forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+            });
+        }
+    });
+    
+    // Search functionality
+    document.getElementById('knowledgeSearch').addEventListener('input', function() {
+        const searchTerm = this.value.toLowerCase();
+        filterBySearch(searchTerm);
+    });
+    
+    // Knowledge card interactions
+    document.querySelectorAll('.knowledge-card').forEach(card => {
+        card.addEventListener('click', function() {
+            toggleKnowledgeContent(this);
+        });
+    });
+    
+    // Load more functionality
+    document.getElementById('loadMoreBtn').addEventListener('click', loadMoreArticles);
+}
+
+function filterByCategory(category) {
+    const items = document.querySelectorAll('.knowledge-item');
+    
+    items.forEach(item => {
+        if (category === 'all' || item.dataset.category === category) {
+            item.style.display = 'block';
+            setTimeout(() => {
+                item.style.opacity = '1';
+                item.style.transform = 'translateY(0)';
+            }, 50);
+        } else {
+            item.style.opacity = '0';
+            item.style.transform = 'translateY(20px)';
+            setTimeout(() => {
+                item.style.display = 'none';
+            }, 300);
+        }
+    });
+}
+
+function filterBySearch(searchTerm) {
+    const items = document.querySelectorAll('.knowledge-item');
+    
+    items.forEach(item => {
+        const title = item.querySelector('.knowledge-title').textContent.toLowerCase();
+        const excerpt = item.querySelector('.knowledge-excerpt').textContent.toLowerCase();
+        const content = item.querySelector('.knowledge-content').textContent.toLowerCase();
+        
+        const matches = title.includes(searchTerm) || 
+                       excerpt.includes(searchTerm) || 
+                       content.includes(searchTerm);
+        
+        if (matches || searchTerm === '') {
+            item.style.display = 'block';
+            setTimeout(() => {
+                item.style.opacity = '1';
+                item.style.transform = 'translateY(0)';
+            }, 50);
+        } else {
+            item.style.opacity = '0';
+            item.style.transform = 'translateY(20px)';
+            setTimeout(() => {
+                item.style.display = 'none';
+            }, 300);
+        }
+    });
+}
+
+function toggleKnowledgeContent(card) {
+    const content = card.querySelector('.knowledge-content');
+    const isExpanded = card.classList.contains('expanded');
+    
+    if (isExpanded) {
+        // Collapse
+        card.classList.remove('expanded');
+        content.style.maxHeight = '0';
+        content.style.opacity = '0';
+    } else {
+        // Expand
+        card.classList.add('expanded');
+        content.style.maxHeight = content.scrollHeight + 'px';
+        content.style.opacity = '1';
+        
+        // Scroll to card
+        setTimeout(() => {
+            card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 300);
+    }
+}
+
+function loadMoreArticles() {
+    // Simulate loading more articles
+    const loadMoreBtn = document.getElementById('loadMoreBtn');
+    const originalText = loadMoreBtn.innerHTML;
+    
+    loadMoreBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Loading...';
+    loadMoreBtn.disabled = true;
+    
+    setTimeout(() => {
+        // Add more articles here in a real implementation
+        loadMoreBtn.innerHTML = originalText;
+        loadMoreBtn.disabled = false;
+        
+        // For demo, just show a message
+        const grid = document.getElementById('knowledgeGrid');
+        const message = document.createElement('div');
+        message.className = 'col-12 text-center mt-4';
+        message.innerHTML = `
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle me-2"></i>
+                More articles coming soon! Check back later for additional content.
+            </div>
+        `;
+        grid.appendChild(message);
+        
+        // Hide the load more button
+        loadMoreBtn.style.display = 'none';
+    }, 2000);
+}
+</script>
+{% endblock %}

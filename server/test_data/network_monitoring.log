@@ -1,0 +1,19 @@
+2025-08-25 10:15:30.123 ALLOW TCP 192.168.1.100:45678 -> 10.0.1.15:443 [SSL/TLS handshake] session_id=abc123def456
+2025-08-25 10:15:45.234 BLOCK TCP 203.0.113.10:12345 -> 192.168.1.100:22 [SSH brute force attempt] rule=BLOCK_SSH_BRUTE_FORCE attempts=5
+2025-08-25 10:16:01.345 ALLOW HTTP 192.168.1.101:45679 -> 10.0.1.20:80 [GET /api/users] content_length=0 response_time=0.123s
+2025-08-25 10:16:15.456 ALERT TCP 198.51.100.5:54321 -> 192.168.1.100:3389 [RDP connection attempt] severity=HIGH geo=CN
+2025-08-25 10:16:22.567 ALLOW ICMP 192.168.1.102:0 -> 8.8.8.8:0 [ping] packet_size=64 ttl=64
+2025-08-25 10:16:33.678 BLOCK TCP 203.0.113.15:23456 -> 192.168.1.100:445 [SMB connection blocked] rule=BLOCK_SMB_EXTERNAL
+2025-08-25 10:16:44.789 MONITOR UDP 192.168.1.103:53 -> 1.1.1.1:53 [DNS query: malware.badsite.com] category=MALWARE action=SINKHOLE
+2025-08-25 10:16:55.890 ALLOW HTTPS 192.168.1.104:45680 -> 52.84.23.15:443 [AWS S3 upload] bytes_transferred=52428800 ssl_version=TLSv1.3
+2025-08-25 10:17:06.901 ALERT TCP 203.0.113.20:34567 -> 192.168.1.100:21 [FTP connection attempt] severity=MEDIUM protocol=FTP auth_type=anonymous
+2025-08-25 10:17:17.012 BLOCK UDP 203.0.113.25:67890 -> 192.168.1.255:123 [NTP amplification attack] rule=BLOCK_NTP_AMPLIFICATION packets=1000
+2025-08-25 10:17:28.123 ALLOW TCP 192.168.1.105:45681 -> 40.91.76.15:443 [Microsoft 365 connection] application=outlook.office365.com
+2025-08-25 10:17:39.234 MONITOR HTTP 192.168.1.106:45682 -> 10.0.1.25:80 [Suspicious user agent] user_agent="() { :; }; echo; echo; /bin/bash -c 'wget'" threat_level=HIGH
+2025-08-25 10:17:50.345 ALLOW TCP 192.168.1.107:45683 -> 10.0.1.30:5432 [PostgreSQL connection] database=production ssl=enabled
+2025-08-25 10:18:01.456 ALERT ICMP 203.0.113.30:0 -> 192.168.1.0/24:0 [ICMP sweep detected] severity=MEDIUM target_count=254
+2025-08-25 10:18:12.567 BLOCK TCP 198.51.100.10:45684 -> 192.168.1.100:23 [Telnet connection blocked] rule=BLOCK_LEGACY_PROTOCOLS
+2025-08-25 10:18:23.678 MONITOR HTTPS 192.168.1.108:45685 -> 185.199.108.153:443 [GitHub API access] api_endpoint=/repos/user/project rate_limit=remaining:4999
+2025-08-25 10:18:34.789 ALLOW UDP 192.168.1.109:45686 -> 8.8.4.4:53 [DNS query: safe.browsing.google.com] response_code=NOERROR ttl=300
+2025-08-25 10:18:45.890 ALERT TCP 203.0.113.35:56789 -> 192.168.1.100:80 [SQL injection attempt] payload="' OR '1'='1" rule=DETECT_SQL_INJECTION
+2025-08-25 10:18:56.901 BLOCK TCP 203.0.113.40:67890 -> 192.168.1.100:135 [RPC endpoint mapper blocked] rule=BLOCK_RPC_EXTERNAL service=rpcss

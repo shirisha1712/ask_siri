@@ -1,0 +1,17 @@
+Aug 25 10:15:30 lb-01 haproxy[12345]: 192.168.1.100:45678 [25/Aug/2025:10:15:30.123] frontend_web backend_web/server1 0/0/1/2/3 200 1247 - - ---- 1/1/0/0/0 0/0 "GET /api/users HTTP/1.1"
+Aug 25 10:15:45 lb-01 haproxy[12345]: 192.168.1.101:45679 [25/Aug/2025:10:15:45.234] frontend_web backend_web/server2 0/0/5/10/15 401 78 - - ---- 2/2/1/0/0 0/0 "POST /api/login HTTP/1.1"
+Aug 25 10:16:01 lb-01 haproxy[12345]: 192.168.1.102:45680 [25/Aug/2025:10:16:01.345] frontend_web backend_web/server1 0/0/2/3/5 200 5672 - - ---- 3/3/1/0/0 0/0 "GET /dashboard HTTP/1.1"
+Aug 25 10:16:15 lb-01 haproxy[12345]: 192.168.1.103:45681 [25/Aug/2025:10:16:15.456] frontend_web backend_web/server3 0/0/0/0/0 413 156 - - SC-- 4/4/2/1/0 0/0 "POST /api/upload HTTP/1.1"
+Aug 25 10:16:22 lb-01 haproxy[12345]: 192.168.1.104:45682 [25/Aug/2025:10:16:22.567] frontend_web backend_web/server2 0/0/1/1/2 304 0 - - ---- 5/5/2/1/0 0/0 "GET /static/css/style.css HTTP/1.1"
+Aug 25 10:16:33 lb-01 haproxy[12345]: 192.168.1.105:45683 [25/Aug/2025:10:16:33.678] frontend_web backend_web/server1 0/0/3/5/8 403 89 - - ---- 6/6/3/1/0 0/0 "DELETE /api/users/12345 HTTP/1.1"
+Aug 25 10:16:44 lb-01 haproxy[12345]: 192.168.1.106:45684 [25/Aug/2025:10:16:44.789] frontend_web backend_web/server2 0/0/15000/0/15000 500 245 - - sH-- 7/7/4/2/0 0/0 "GET /api/analytics HTTP/1.1"
+Aug 25 10:16:44 lb-01 haproxy[12345]: Server backend_web/server2 is DOWN, reason: Layer7 timeout, check duration: 5001ms. 2 active and 0 backup servers left. 0 sessions active, 0 requeued, 0 remaining in queue.
+Aug 25 10:16:55 lb-01 haproxy[12345]: 192.168.1.107:45685 [25/Aug/2025:10:16:55.890] frontend_web backend_web/server1 0/0/4/8/12 422 134 - - ---- 8/8/4/2/0 0/0 "PUT /api/settings HTTP/1.1"
+Aug 25 10:17:06 lb-01 haproxy[12345]: 192.168.1.108:45686 [25/Aug/2025:10:17:06.901] frontend_web backend_web/server3 0/0/1/1/2 200 15 - - ---- 9/9/4/2/0 0/0 "GET /health HTTP/1.1"
+Aug 25 10:17:17 lb-01 haproxy[12345]: 192.168.1.109:45687 [25/Aug/2025:10:17:17.012] frontend_web backend_web/server1 0/0/2/3/5 429 67 - - ---- 10/10/5/2/0 0/0 "POST /api/password-reset HTTP/1.1"
+Aug 25 10:17:28 lb-01 haproxy[12345]: 192.168.1.110:45688 [25/Aug/2025:10:17:28.123] frontend_web backend_web/server3 0/0/1/2/3 404 892 - - ---- 11/11/5/2/0 0/0 "GET /admin/logs HTTP/1.1"
+Aug 25 10:17:39 lb-01 haproxy[12345]: 192.168.1.111:45689 [25/Aug/2025:10:17:39.234] frontend_web backend_web/server1 0/0/0/1/1 200 0 - - ---- 12/12/6/2/0 0/0 "OPTIONS /api/upload HTTP/1.1"
+Aug 25 10:17:44 lb-01 haproxy[12345]: Server backend_web/server2 is UP, reason: Layer7 check passed, check duration: 2ms. 3 active and 0 backup servers online. 0 sessions requeued, 0 total in queue.
+Aug 25 10:17:50 lb-01 haproxy[12345]: 192.168.1.112:45690 [25/Aug/2025:10:17:50.345] frontend_web backend_web/server2 0/0/1/1/2 404 178 - - ---- 13/13/6/2/0 0/0 "GET /robots.txt HTTP/1.1"
+Aug 25 10:18:01 lb-01 haproxy[12345]: 192.168.1.113:45691 [25/Aug/2025:10:18:01.456] frontend_web backend_web/server3 0/0/2/4/6 201 89 - - ---- 14/14/7/2/0 0/0 "POST /api/feedback HTTP/1.1"
+Aug 25 10:18:12 lb-01 haproxy[12345]: 192.168.1.114:45692 [25/Aug/2025:10:18:12.567] frontend_web backend_web/server1 0/0/3/5/8 200 2456 - - ---- 15/15/7/2/0 0/0 "GET /metrics HTTP/1.1"

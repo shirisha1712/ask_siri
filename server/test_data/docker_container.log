@@ -1,0 +1,25 @@
+2025-08-25T10:15:30.123456789Z container-web-01[12345]: INFO Starting application server on port 8080
+2025-08-25T10:15:30.567890123Z container-web-01[12345]: INFO Environment: production
+2025-08-25T10:15:30.789012345Z container-web-01[12345]: INFO Database connection established: postgresql://db:5432/app
+2025-08-25T10:15:45.234567890Z container-web-01[12345]: ERROR Failed to connect to Redis: dial tcp 172.17.0.3:6379: connection refused
+2025-08-25T10:15:45.345678901Z container-web-01[12345]: WARN Falling back to in-memory cache
+2025-08-25T10:16:01.456789012Z container-db-01[12346]: LOG database system is ready to accept connections
+2025-08-25T10:16:15.567890123Z container-web-01[12345]: ERROR Request timeout: client disconnected after 30s
+2025-08-25T10:16:15.678901234Z container-web-01[12345]: INFO Request: GET /api/large-data from 192.168.1.100
+2025-08-25T10:16:22.789012345Z container-nginx-01[12347]: INFO nginx/1.21.0 started successfully
+2025-08-25T10:16:33.890123456Z container-web-01[12345]: WARN High memory usage detected: 85% of 512MB limit
+2025-08-25T10:16:44.901234567Z container-redis-01[12348]: ERROR Out of memory: used 536870912 of 536870912 bytes
+2025-08-25T10:16:44.012345678Z container-redis-01[12348]: WARN Evicting keys to free memory
+2025-08-25T10:16:55.123456789Z container-web-01[12345]: ERROR Unhandled exception in request handler
+2025-08-25T10:16:55.234567890Z container-web-01[12345]: TRACE TypeError: Cannot read property 'id' of undefined
+2025-08-25T10:16:55.345678901Z container-web-01[12345]: TRACE     at UserController.getProfile (/app/controllers/user.js:45)
+2025-08-25T10:17:06.456789012Z container-monitor-01[12349]: INFO Health check passed for all services
+2025-08-25T10:17:17.567890123Z container-web-01[12345]: WARN Rate limit exceeded for IP 192.168.1.109: 1000 requests in 1 minute
+2025-08-25T10:17:28.678901234Z container-nginx-01[12347]: ERROR 404 Not Found: GET /admin/logs
+2025-08-25T10:17:39.789012345Z container-web-01[12345]: INFO CORS preflight successful for https://frontend.example.com
+2025-08-25T10:17:50.890123456Z container-crawler-01[12350]: INFO Bot detected: User-Agent contains "Googlebot"
+2025-08-25T10:18:01.901234567Z container-web-01[12345]: INFO Feedback submission processed successfully
+2025-08-25T10:18:12.012345678Z container-prometheus-01[12351]: INFO Metrics scraped from 15 targets, 245 series collected
+2025-08-25T10:18:23.123456789Z container-web-01[12345]: FATAL Container stopping: received SIGTERM signal
+2025-08-25T10:18:23.234567890Z container-web-01[12345]: INFO Graceful shutdown initiated, waiting for active requests
+2025-08-25T10:18:25.345678901Z container-web-01[12345]: INFO All requests completed, container exiting

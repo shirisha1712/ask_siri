@@ -1,0 +1,25 @@
+2025-08-25 10:15:30 UTC [12345]: [1-1] user=postgres,db=maindb LOG: connection received: host=192.168.1.50 port=45678
+2025-08-25 10:15:30 UTC [12345]: [2-1] user=postgres,db=maindb LOG: connection authorized: user=postgres database=maindb
+2025-08-25 10:15:32 UTC [12346]: [1-1] user=appuser,db=maindb LOG: connection received: host=192.168.1.51 port=45679
+2025-08-25 10:15:32 UTC [12346]: [2-1] user=appuser,db=maindb LOG: connection authorized: user=appuser database=maindb
+2025-08-25 10:15:45 UTC [12346]: [3-1] user=appuser,db=maindb ERROR: relation "invalid_table" does not exist at character 15
+2025-08-25 10:15:45 UTC [12346]: [3-2] user=appuser,db=maindb STATEMENT: SELECT * FROM invalid_table WHERE id = $1
+2025-08-25 10:16:01 UTC [12347]: [1-1] user=readonly,db=maindb LOG: connection received: host=192.168.1.52 port=45680
+2025-08-25 10:16:01 UTC [12347]: [2-1] user=readonly,db=maindb WARNING: slow query detected: duration 3245.678 ms
+2025-08-25 10:16:01 UTC [12347]: [2-2] user=readonly,db=maindb STATEMENT: SELECT u.*, p.profile_data FROM users u LEFT JOIN profiles p ON u.id = p.user_id WHERE u.created_at > '2024-01-01'
+2025-08-25 10:16:15 UTC [12348]: [1-1] user=appuser,db=maindb ERROR: could not serialize access due to concurrent update
+2025-08-25 10:16:22 UTC [12349]: [1-1] user=appuser,db=maindb LOG: checkpoint starting: time
+2025-08-25 10:16:33 UTC [12350]: [1-1] user=admin,db=maindb ERROR: permission denied for table admin_users
+2025-08-25 10:16:44 UTC [12351]: [1-1] user=appuser,db=maindb FATAL: too many connections for role "appuser"
+2025-08-25 10:16:44 UTC [12351]: [1-2] user=appuser,db=maindb DETAIL: Role "appuser" can have at most 20 concurrent connections.
+2025-08-25 10:16:55 UTC [12352]: [1-1] user=appuser,db=maindb ERROR: syntax error at or near "SELET" at character 1
+2025-08-25 10:16:55 UTC [12352]: [1-2] user=appuser,db=maindb STATEMENT: SELET name FROM users WHERE active = true
+2025-08-25 10:17:06 UTC [12353]: [1-1] user=monitor,db=maindb LOG: connection received: host=192.168.1.55 port=45681
+2025-08-25 10:17:17 UTC [12354]: [1-1] user=appuser,db=maindb WARNING: there is no transaction in progress
+2025-08-25 10:17:28 UTC [12355]: [1-1] user=backup,db=maindb LOG: connection received: host=192.168.1.56 port=45682
+2025-08-25 10:17:28 UTC [12355]: [2-1] user=backup,db=maindb ERROR: database "nonexistent_db" does not exist
+2025-08-25 10:17:39 UTC [12356]: [1-1] user=appuser,db=maindb LOG: autovacuum launcher started
+2025-08-25 10:17:50 UTC [12357]: [1-1] user=appuser,db=maindb WARNING: deadlock detected
+2025-08-25 10:17:50 UTC [12357]: [1-2] user=appuser,db=maindb DETAIL: Process 12357 waits for ShareLock on transaction 12358; blocked by process 12359.
+2025-08-25 10:18:01 UTC [12358]: [1-1] user=analytics,db=maindb LOG: connection received: host=192.168.1.57 port=45683
+2025-08-25 10:18:12 UTC [12359]: [1-1] user=appuser,db=maindb LOG: automatic analyze of table "maindb.public.metrics" system usage: CPU: user: 0.15 s, system: 0.03 s, elapsed: 2.45 s

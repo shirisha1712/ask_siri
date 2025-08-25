@@ -1,0 +1,1148 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Ask Siri{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <!-- Dashboard Header -->
+    <div class="row mb-5">
+        <div class="col-12 text-center">
+            <h1 class="text-aqua">Educational Dashboard</h1>
+            <p class="text-muted">Learn about log analysis and improve your debugging skills</p>
+        </div>
+    </div>
+
+    <!-- Quick Stats (if user is logged in) -->
+    {% if current_user.is_authenticated %}
+    <div class="row g-4 mb-5">
+        <div class="col-md-3">
+            <div class="stats-card">
+                <span class="stats-number">{{ recent_analyses|length }}</span>
+                <div class="stats-label">Recent Analyses</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stats-card">
+                <span class="stats-number">{{ current_user.role }}</span>
+                <div class="stats-label">Role</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stats-card">
+                <span class="stats-number">{{ recent_analyses|sum(attribute='error_count') }}</span>
+                <div class="stats-label">Total Errors Found</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stats-card">
+                <span class="stats-number">{{ recent_analyses|sum(attribute='warning_count') }}</span>
+                <div class="stats-label">Total Warnings</div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Educational Content Cards -->
+    <div class="row">
+        <div class="col-12 mb-4">
+            <h2 class="text-aqua">Master Log Analysis - Learning Path</h2>
+            <p class="text-muted">Follow our structured learning path from fundamentals to advanced techniques</p>
+        </div>
+    </div>
+
+    <!-- Fundamentals Row -->
+    <div class="row g-4 mb-4">
+        <div class="col-12">
+            <h3 class="text-server-green mb-3">
+                <i class="fas fa-graduation-cap me-2"></i>Fundamentals
+            </h3>
+        </div>
+        
+        <!-- What are Logs? -->
+        <div class="col-lg-6 col-md-6">
+            <div class="server-card h-100">
+                <div class="card-icon">
+                    <i class="fas fa-file-alt"></i>
+                </div>
+                <h4 class="text-aqua mb-3">What are Logs?</h4>
+                <p class="text-muted">
+                    Understand the basics of log files, their purpose, and why they're essential 
+                    for system monitoring and debugging.
+                </p>
+                <ul class="list-unstyled small">
+                    <li><i class="fas fa-check text-server-green me-2"></i>Log file structure</li>
+                    <li><i class="fas fa-check text-server-green me-2"></i>Timestamp formats</li>
+                    <li><i class="fas fa-check text-server-green me-2"></i>Log levels (INFO, WARN, ERROR)</li>
+                </ul>
+                <div class="mt-auto">
+                    <a href="{{ url_for('knowledge_detail', topic='what-are-logs') }}" class="btn btn-outline-primary">
+                        Start Learning <i class="fas fa-arrow-right ms-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Types of Logs -->
+        <div class="col-lg-6 col-md-6">
+            <div class="server-card h-100">
+                <div class="card-icon">
+                    <i class="fas fa-layer-group"></i>
+                </div>
+                <h4 class="text-aqua mb-3">Types of Logs</h4>
+                <p class="text-muted">
+                    Explore different types of logs including system logs, application logs, 
+                    security logs, and web server logs.
+                </p>
+                <ul class="list-unstyled small">
+                    <li><i class="fas fa-check text-server-green me-2"></i>System logs (syslog)</li>
+                    <li><i class="fas fa-check text-server-green me-2"></i>Application logs</li>
+                    <li><i class="fas fa-check text-server-green me-2"></i>Security & audit logs</li>
+                </ul>
+                <div class="mt-auto">
+                    <a href="{{ url_for('knowledge_detail', topic='log-types') }}" class="btn btn-outline-primary">
+                        Explore Types <i class="fas fa-arrow-right ms-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Problem Identification Row -->
+    <div class="row g-4 mb-4">
+        <div class="col-12">
+            <h3 class="text-warning mb-3">
+                <i class="fas fa-search me-2"></i>Problem Identification
+            </h3>
+        </div>
+        
+        <!-- Common Log Errors -->
+        <div class="col-lg-6 col-md-6">
+            <div class="server-card h-100">
+                <div class="card-icon">
+                    <i class="fas fa-exclamation-triangle text-warning"></i>
+                </div>
+                <h4 class="text-aqua mb-3">Common Log Errors</h4>
+                <p class="text-muted">
+                    Learn to identify and understand common error patterns, HTTP status codes, 
+                    and database error messages.
+                </p>
+                <ul class="list-unstyled small">
+                    <li><i class="fas fa-bug text-server-green me-2"></i>HTTP error codes (404, 500, 502)</li>
+                    <li><i class="fas fa-database text-server-green me-2"></i>Database connection errors</li>
+                    <li><i class="fas fa-clock text-server-green me-2"></i>Connection timeouts</li>
+                </ul>
+                <div class="mt-auto">
+                    <a href="{{ url_for('knowledge_detail', topic='common-errors') }}" class="btn btn-outline-warning">
+                        Identify Errors <i class="fas fa-arrow-right ms-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Analysis Techniques -->
+        <div class="col-lg-6 col-md-6">
+            <div class="server-card h-100">
+                <div class="card-icon">
+                    <i class="fas fa-search-plus text-info"></i>
+                </div>
+                <h4 class="text-aqua mb-3">Analysis Techniques</h4>
+                <p class="text-muted">
+                    Master advanced techniques for log analysis including pattern recognition, 
+                    correlation, and root cause analysis.
+                </p>
+                <ul class="list-unstyled small">
+                    <li><i class="fas fa-chart-line text-server-green me-2"></i>Pattern recognition</li>
+                    <li><i class="fas fa-history text-server-green me-2"></i>Timeline analysis</li>
+                    <li><i class="fas fa-sitemap text-server-green me-2"></i>Root cause analysis</li>
+                </ul>
+                <div class="mt-auto">
+                    <a href="{{ url_for('knowledge_detail', topic='analysis-techniques') }}" class="btn btn-outline-info">
+                        Master Techniques <i class="fas fa-arrow-right ms-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Advanced & Best Practices Row -->
+    <div class="row g-4 mb-5">
+        <div class="col-12">
+            <h3 class="text-aqua mb-3">
+                <i class="fas fa-star me-2"></i>Advanced & Best Practices
+            </h3>
+        </div>
+        
+        <!-- Best Practices -->
+        <div class="col-lg-6 col-md-6">
+            <div class="server-card h-100">
+                <div class="card-icon">
+                    <i class="fas fa-shield-alt text-success"></i>
+                </div>
+                <h4 class="text-aqua mb-3">Best Practices</h4>
+                <p class="text-muted">
+                    Learn industry best practices for log management, retention policies, 
+                    and effective monitoring strategies.
+                </p>
+                <ul class="list-unstyled small">
+                    <li><i class="fas fa-archive text-server-green me-2"></i>Log retention policies</li>
+                    <li><i class="fas fa-eye text-server-green me-2"></i>Monitoring strategies</li>
+                    <li><i class="fas fa-lock text-server-green me-2"></i>Security considerations</li>
+                </ul>
+                <div class="mt-auto">
+                    <a href="{{ url_for('knowledge_detail', topic='best-practices') }}" class="btn btn-outline-success">
+                        Learn Best Practices <i class="fas fa-arrow-right ms-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Troubleshooting Guide -->
+        <div class="col-lg-6 col-md-6">
+            <div class="server-card h-100">
+                <div class="card-icon">
+                    <i class="fas fa-tools text-danger"></i>
+                </div>
+                <h4 class="text-aqua mb-3">Troubleshooting Guide</h4>
+                <p class="text-muted">
+                    Step-by-step troubleshooting methodologies for common system and application issues 
+                    using log analysis.
+                </p>
+                <ul class="list-unstyled small">
+                    <li><i class="fas fa-list-ol text-server-green me-2"></i>Systematic approach</li>
+                    <li><i class="fas fa-sort-amount-up text-server-green me-2"></i>Issue prioritization</li>
+                    <li><i class="fas fa-clipboard-check text-server-green me-2"></i>Resolution tracking</li>
+                </ul>
+                <div class="mt-auto">
+                    <a href="{{ url_for('knowledge_detail', topic='troubleshooting') }}" class="btn btn-outline-danger">
+                        Master Troubleshooting <i class="fas fa-arrow-right ms-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Learning Progress Indicator -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <div class="server-card text-center">
+                <h4 class="text-aqua mb-3">
+                    <i class="fas fa-trophy me-2"></i>Your Learning Journey
+                </h4>
+                <p class="text-muted mb-4">Track your progress through our comprehensive log analysis curriculum</p>
+                <div class="learning-progress mb-4">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="progress-step">
+                                <div class="step-circle fundamentals">1</div>
+                                <small>Fundamentals</small>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="progress-step">
+                                <div class="step-circle identification">2</div>
+                                <small>Problem ID</small>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="progress-step">
+                                <div class="step-circle analysis">3</div>
+                                <small>Analysis</small>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="progress-step">
+                                <div class="step-circle practices">4</div>
+                                <small>Best Practices</small>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="progress-step">
+                                <div class="step-circle troubleshooting">5</div>
+                                <small>Troubleshooting</small>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="progress-step">
+                                <div class="step-circle expert">6</div>
+                                <small>Expert</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <p class="small text-muted">Complete topics to unlock the next level of expertise!</p>
+            </div>
+        </div>
+    
+
+    <!-- External Resources Section -->
+    <div class="row">
+        <div class="col-12 mb-4">
+            <h2 class="text-aqua">External Learning Resources</h2>
+            <p class="text-muted">Explore additional resources from industry experts and official documentation</p>
+        </div>
+    </div>
+
+    <div class="row g-4 mb-5">
+        <!-- Log Management Tools -->
+        <div class="col-lg-4 col-md-6">
+            <div class="server-card h-100">
+                <div class="card-icon">
+                    <i class="fas fa-cogs"></i>
+                </div>
+                <h4 class="text-aqua mb-3">Log Management Tools</h4>
+                <p class="text-muted">
+                    Discover industry-standard tools and platforms for centralized log management and analysis.
+                </p>
+                <ul class="list-unstyled small">
+                    <li><i class="fas fa-external-link-alt text-server-green me-2"></i>ELK Stack (Elasticsearch, Logstash, Kibana)</li>
+                    <li><i class="fas fa-external-link-alt text-server-green me-2"></i>Splunk Enterprise</li>
+                    <li><i class="fas fa-external-link-alt text-server-green me-2"></i>Fluentd & Fluent Bit</li>
+                </ul>
+                <div class="mt-auto">
+                    <a href="https://www.elastic.co/what-is/elk-stack" target="_blank" class="btn btn-outline-success">
+                        Explore ELK Stack <i class="fas fa-external-link-alt ms-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Linux/Unix Logging -->
+        <div class="col-lg-4 col-md-6">
+            <div class="server-card h-100">
+                <div class="card-icon">
+                    <i class="fab fa-linux"></i>
+                </div>
+                <h4 class="text-aqua mb-3">Linux System Logs</h4>
+                <p class="text-muted">
+                    Master Linux and Unix system logging, including syslog, journald, and log rotation.
+                </p>
+                <ul class="list-unstyled small">
+                    <li><i class="fas fa-external-link-alt text-server-green me-2"></i>Syslog Protocol (RFC 5424)</li>
+                    <li><i class="fas fa-external-link-alt text-server-green me-2"></i>systemd journal</li>
+                    <li><i class="fas fa-external-link-alt text-server-green me-2"></i>logrotate configuration</li>
+                </ul>
+                <div class="mt-auto">
+                    <a href="https://www.redhat.com/en/blog/what-are-linux-logs" target="_blank" class="btn btn-outline-success">
+                        Linux Logs Guide <i class="fas fa-external-link-alt ms-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Application Performance Monitoring -->
+        <div class="col-lg-4 col-md-6">
+            <div class="server-card h-100">
+                <div class="card-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <h4 class="text-aqua mb-3">APM & Observability</h4>
+                <p class="text-muted">
+                    Learn about Application Performance Monitoring and modern observability practices.
+                </p>
+                <ul class="list-unstyled small">
+                    <li><i class="fas fa-external-link-alt text-server-green me-2"></i>Distributed tracing</li>
+                    <li><i class="fas fa-external-link-alt text-server-green me-2"></i>Metrics and logs correlation</li>
+                    <li><i class="fas fa-external-link-alt text-server-green me-2"></i>OpenTelemetry</li>
+                </ul>
+                <div class="mt-auto">
+                    <a href="https://opentelemetry.io/docs/" target="_blank" class="btn btn-outline-success">
+                        OpenTelemetry Docs <i class="fas fa-external-link-alt ms-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Security Log Analysis -->
+        <div class="col-lg-4 col-md-6">
+            <div class="server-card h-100">
+                <div class="card-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h4 class="text-aqua mb-3">Security & SIEM</h4>
+                <p class="text-muted">
+                    Understand security event logging, SIEM systems, and threat detection through log analysis.
+                </p>
+                <ul class="list-unstyled small">
+                    <li><i class="fas fa-external-link-alt text-server-green me-2"></i>SIEM fundamentals</li>
+                    <li><i class="fas fa-external-link-alt text-server-green me-2"></i>Security event correlation</li>
+                    <li><i class="fas fa-external-link-alt text-server-green me-2"></i>Incident response</li>
+                </ul>
+                <div class="mt-auto">
+                    <a href="https://www.nist.gov/publications/guide-computer-security-log-management" target="_blank" class="btn btn-outline-success">
+                        NIST Log Security <i class="fas fa-external-link-alt ms-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cloud Logging -->
+        <div class="col-lg-4 col-md-6">
+            <div class="server-card h-100">
+                <div class="card-icon">
+                    <i class="fas fa-cloud"></i>
+                </div>
+                <h4 class="text-aqua mb-3">Cloud Logging</h4>
+                <p class="text-muted">
+                    Explore cloud-native logging solutions and containerized application logging strategies.
+                </p>
+                <ul class="list-unstyled small">
+                    <li><i class="fas fa-external-link-alt text-server-green me-2"></i>AWS CloudWatch</li>
+                    <li><i class="fas fa-external-link-alt text-server-green me-2"></i>Google Cloud Logging</li>
+                    <li><i class="fas fa-external-link-alt text-server-green me-2"></i>Azure Monitor</li>
+                </ul>
+                <div class="mt-auto">
+                    <a href="https://aws.amazon.com/cloudwatch/" target="_blank" class="btn btn-outline-success">
+                        AWS CloudWatch <i class="fas fa-external-link-alt ms-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- DevOps & CI/CD Logging -->
+        <div class="col-lg-4 col-md-6">
+            <div class="server-card h-100">
+                <div class="card-icon">
+                    <i class="fas fa-rocket"></i>
+                </div>
+                <h4 class="text-aqua mb-3">DevOps Logging</h4>
+                <p class="text-muted">
+                    Learn logging best practices for DevOps pipelines, CI/CD, and infrastructure as code.
+                </p>
+                <ul class="list-unstyled small">
+                    <li><i class="fas fa-external-link-alt text-server-green me-2"></i>Pipeline logging</li>
+                    <li><i class="fas fa-external-link-alt text-server-green me-2"></i>Infrastructure monitoring</li>
+                    <li><i class="fas fa-external-link-alt text-server-green me-2"></i>Deployment tracking</li>
+                </ul>
+                <div class="mt-auto">
+                    <a href="https://docs.docker.com/config/containers/logging/" target="_blank" class="btn btn-outline-success">
+                        Docker Logging <i class="fas fa-external-link-alt ms-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        <!-- Common Log Errors -->
+        <div class="col-lg-4 col-md-6">
+            <div class="server-card h-100">
+                <div class="card-icon">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <h4 class="text-aqua mb-3">Common Log Errors</h4>
+                <p class="text-muted">
+                    Learn to identify and understand common error patterns, HTTP status codes, 
+                    and database error messages.
+                </p>
+                <ul class="list-unstyled small">
+                    <li><i class="fas fa-check text-server-green me-2"></i>HTTP error codes</li>
+                    <li><i class="fas fa-check text-server-green me-2"></i>Database errors</li>
+                    <li><i class="fas fa-check text-server-green me-2"></i>Connection timeouts</li>
+                </ul>
+                <div class="mt-auto">
+                    <a href="{{ url_for('knowledge_detail', topic='common-errors') }}" class="btn btn-outline-primary">
+                        Learn More <i class="fas fa-arrow-right ms-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Log Analysis Techniques -->
+        <div class="col-lg-4 col-md-6">
+            <div class="server-card h-100">
+                <div class="card-icon">
+                    <i class="fas fa-search"></i>
+                </div>
+                <h4 class="text-aqua mb-3">Analysis Techniques</h4>
+                <p class="text-muted">
+                    Master advanced techniques for log analysis including pattern recognition, 
+                    correlation, and root cause analysis.
+                </p>
+                <ul class="list-unstyled small">
+                    <li><i class="fas fa-check text-server-green me-2"></i>Pattern recognition</li>
+                    <li><i class="fas fa-check text-server-green me-2"></i>Timeline analysis</li>
+                    <li><i class="fas fa-check text-server-green me-2"></i>Root cause analysis</li>
+                </ul>
+                <div class="mt-auto">
+                    <a href="{{ url_for('knowledge_detail', topic='analysis-techniques') }}" class="btn btn-outline-primary">
+                        Learn More <i class="fas fa-arrow-right ms-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Best Practices -->
+        <div class="col-lg-4 col-md-6">
+            <div class="server-card h-100">
+                <div class="card-icon">
+                    <i class="fas fa-star"></i>
+                </div>
+                <h4 class="text-aqua mb-3">Best Practices</h4>
+                <p class="text-muted">
+                    Learn industry best practices for log management, retention policies, 
+                    and effective monitoring strategies.
+                </p>
+                <ul class="list-unstyled small">
+                    <li><i class="fas fa-check text-server-green me-2"></i>Log retention policies</li>
+                    <li><i class="fas fa-check text-server-green me-2"></i>Monitoring strategies</li>
+                    <li><i class="fas fa-check text-server-green me-2"></i>Security considerations</li>
+                </ul>
+                <div class="mt-auto">
+                    <a href="{{ url_for('knowledge_detail', topic='best-practices') }}" class="btn btn-outline-primary">
+                        Learn More <i class="fas fa-arrow-right ms-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Troubleshooting Guide -->
+        <div class="col-lg-4 col-md-6">
+            <div class="server-card h-100">
+                <div class="card-icon">
+                    <i class="fas fa-tools"></i>
+                </div>
+                <h4 class="text-aqua mb-3">Troubleshooting Guide</h4>
+                <p class="text-muted">
+                    Step-by-step troubleshooting methodologies for common system and application issues 
+                    using log analysis.
+                </p>
+                <ul class="list-unstyled small">
+                    <li><i class="fas fa-check text-server-green me-2"></i>Systematic approach</li>
+                    <li><i class="fas fa-check text-server-green me-2"></i>Issue prioritization</li>
+                    <li><i class="fas fa-check text-server-green me-2"></i>Resolution tracking</li>
+                </ul>
+                <div class="mt-auto">
+                    <a href="{{ url_for('knowledge_detail', topic='troubleshooting') }}" class="btn btn-outline-primary">
+                        Learn More <i class="fas fa-arrow-right ms-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Upload Prompt Section -->
+    <div class="row mb-5">
+        <div class="col-12 mb-4">
+            <h2 class="text-aqua">Interactive Learning Tools</h2>
+            <p class="text-muted">Practice your skills with our interactive tools and AI-powered assistant</p>
+        </div>
+        <div class="col-lg-12">
+            <div class="row g-4">
+                <!-- Upload & Analyze -->
+                <div class="col-lg-6">
+                    <div class="server-card text-center h-100">
+                        <div class="mb-4">
+                            <i class="fas fa-upload fa-3x text-aqua mb-3"></i>
+                            <h4 class="text-light">Upload & Analyze Logs</h4>
+                            <p class="text-muted mb-4">
+                                Get instant visualizations, error analysis, and actionable insights from your server logs
+                            </p>
+                        </div>
+                        <div class="d-flex gap-3 justify-content-center flex-wrap">
+                            <a href="{{ url_for('upload_page') }}" class="btn btn-primary btn-lg">
+                                <i class="fas fa-upload me-2"></i>Upload & Analyze
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AI Assistant -->
+                <div class="col-lg-6">
+                    <div class="server-card text-center h-100">
+                        <div class="mb-4">
+                            <img src="{{ url_for('static', filename='images/siri-logo.png') }}" alt="Siri Logo" class="siri-logo-large mb-3">
+                            <h4 class="text-light">AI Log Assistant</h4>
+                            <p class="text-muted mb-4">
+                                Chat with our AI assistant to get expert advice on log analysis and troubleshooting
+                            </p>
+                        </div>
+                        <div class="d-flex gap-3 justify-content-center flex-wrap">
+                            <a href="{{ url_for('assistant') }}" class="btn btn-outline-aqua btn-lg">
+                                <i class="fas fa-comments me-2"></i>Ask AI Assistant
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Learning Resources Section -->
+    <div class="row mb-5">
+        <div class="col-12 mb-4">
+            <h2 class="text-aqua">Quick Learning Resources</h2>
+            <p class="text-muted">Essential knowledge at your fingertips</p>
+        </div>
+        <div class="col-12">
+            <div class="server-card">
+                <div class="row g-3">
+                    <div class="col-md-3">
+                        <a href="https://www.rfc-editor.org/rfc/rfc5424.html" target="_blank" class="btn btn-outline-info w-100">
+                            <i class="fas fa-book me-2"></i>RFC 5424 (Syslog)
+                        </a>
+                    </div>
+                    <div class="col-md-3">
+                        <a href="https://httpstatuses.com/" target="_blank" class="btn btn-outline-info w-100">
+                            <i class="fas fa-globe me-2"></i>HTTP Status Codes
+                        </a>
+                    </div>
+                    <div class="col-md-3">
+                        <a href="https://regex101.com/" target="_blank" class="btn btn-outline-info w-100">
+                            <i class="fas fa-search me-2"></i>Regex Tester
+                        </a>
+                    </div>
+                    <div class="col-md-3">
+                        <a href="https://jsonlint.com/" target="_blank" class="btn btn-outline-info w-100">
+                            <i class="fas fa-code me-2"></i>JSON Validator
+                        </a>
+                    </div>
+                </div>
+                <div class="row g-3 mt-2">
+                    <div class="col-md-3">
+                        <a href="https://www.cyberciti.biz/faq/linux-log-files-location-and-how-do-i-view-logs-files/" target="_blank" class="btn btn-outline-info w-100">
+                            <i class="fab fa-linux me-2"></i>Linux Logs Guide
+                        </a>
+                    </div>
+                    <div class="col-md-3">
+                        <a href="https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/wevtutil" target="_blank" class="btn btn-outline-info w-100">
+                            <i class="fab fa-windows me-2"></i>Windows Event Logs
+                        </a>
+                    </div>
+                    <div class="col-md-3">
+                        <a href="https://httpd.apache.org/docs/2.4/logs.html" target="_blank" class="btn btn-outline-info w-100">
+                            <i class="fas fa-server me-2"></i>Apache Logs
+                        </a>
+                    </div>
+                    <div class="col-md-3">
+                        <a href="https://nginx.org/en/docs/debugging_log.html" target="_blank" class="btn btn-outline-info w-100">
+                            <i class="fas fa-cogs me-2"></i>Nginx Logs
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Analysis History (for logged-in users) -->
+    {% if current_user.is_authenticated and recent_analyses %}
+    <div class="row">
+        <div class="col-12 mb-4">
+            <h2 class="text-aqua">Your Recent Analyses</h2>
+            <p class="text-muted">Quick access to your recent log analysis results</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="server-card">
+                <div class="table-responsive">
+                    <table class="table table-dark table-hover">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Query</th>
+                                <th>Errors Found</th>
+                                <th>Warnings</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for analysis in recent_analyses %}
+                            <tr>
+                                <td>{{ analysis.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+                                <td>{{ analysis.prompt[:50] }}{% if analysis.prompt|length > 50 %}...{% endif %}</td>
+                                <td><span class="badge bg-danger">{{ analysis.error_count }}</span></td>
+                                <td><span class="badge bg-warning">{{ analysis.warning_count }}</span></td>
+                                <td>
+                                    <button class="btn btn-sm btn-outline-primary" onclick="viewAnalysis({{ analysis.id }})">
+                                        <i class="fas fa-eye me-1"></i>View
+                                    </button>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="text-center mt-3">
+                    <a href="{{ url_for('profile') }}" class="btn btn-outline-primary">
+                        View All History <i class="fas fa-arrow-right ms-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Quick Start Section -->
+    <div class="row mt-5">
+        <div class="col-12">
+            <div class="server-card text-center">
+                <h3 class="text-aqua mb-3">Ready to Start Analyzing?</h3>
+                <p class="text-muted mb-4">
+                    Use our AI-powered analysis to understand your logs better and resolve issues faster.
+                </p>
+                <a href="{{ url_for('upload_page') }}" class="btn btn-primary btn-lg">
+                    <i class="fas fa-upload me-2"></i>Upload Logs Now
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// View analysis function
+function viewAnalysis(analysisId) {
+    // This would implement viewing a specific analysis
+    alert('Feature coming soon: View detailed analysis #' + analysisId);
+}
+
+// Delete analysis function
+function deleteAnalysis(analysisId) {
+    if (confirm('Are you sure you want to delete this analysis?')) {
+        // This would implement deleting an analysis
+        alert('Feature coming soon: Delete analysis #' + analysisId);
+    }
+}
+
+// Educational tooltips and interactions
+function initializeEducationalFeatures() {
+    // Add hover effects to learning cards
+    const cards = document.querySelectorAll('.server-card');
+    cards.forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-5px)';
+            this.style.transition = 'all 0.3s ease';
+        });
+        
+        card.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0)';
+        });
+    });
+
+    // Add educational hints
+    addEducationalHints();
+    
+    // Initialize progress tracking
+    initializeProgressTracking();
+}
+
+function addEducationalHints() {
+    // Add tooltips to buttons
+    const buttons = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+    if (typeof bootstrap !== 'undefined') {
+        buttons.forEach(button => {
+            new bootstrap.Tooltip(button);
+        });
+    }
+    
+    // Add click tracking for educational content
+    const learningLinks = document.querySelectorAll('.btn-outline-primary, .btn-outline-success, .btn-outline-info');
+    learningLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            const topic = this.textContent.trim();
+            console.log('User accessing learning content:', topic);
+            
+            // Add visual feedback
+            this.classList.add('btn-success');
+            this.innerHTML = '<i class="fas fa-check me-2"></i>Accessed!';
+            
+            setTimeout(() => {
+                this.classList.remove('btn-success');
+                this.innerHTML = this.getAttribute('data-original-text') || topic;
+            }, 2000);
+        });
+        
+        // Store original text
+        link.setAttribute('data-original-text', link.innerHTML);
+    });
+}
+
+function initializeProgressTracking() {
+    // Track user's learning progress
+    const completedTopics = JSON.parse(localStorage.getItem('completedTopics') || '[]');
+    
+    // Mark completed topics
+    completedTopics.forEach(topic => {
+        const topicButton = document.querySelector(`[href*="${topic}"]`);
+        if (topicButton && topicButton.classList.contains('btn-outline-primary')) {
+            topicButton.classList.remove('btn-outline-primary');
+            topicButton.classList.add('btn-outline-success');
+            topicButton.innerHTML = topicButton.innerHTML.replace('Start Learning', 'Completed');
+            topicButton.innerHTML = topicButton.innerHTML.replace('Learn More', 'Completed');
+            topicButton.innerHTML = topicButton.innerHTML.replace('Explore', 'Completed');
+            topicButton.innerHTML = topicButton.innerHTML.replace('Master', 'Completed');
+        }
+    });
+    
+    // Update progress circles
+    updateProgressCircles(completedTopics);
+}
+
+function updateProgressCircles(completedTopics) {
+    const topicMapping = {
+        'what-are-logs': 'fundamentals',
+        'log-types': 'fundamentals',
+        'common-errors': 'identification',
+        'analysis-techniques': 'analysis',
+        'best-practices': 'practices',
+        'troubleshooting': 'troubleshooting'
+    };
+    
+    // Count completed topics in each category
+    const categoryProgress = {};
+    completedTopics.forEach(topic => {
+        const category = topicMapping[topic];
+        if (category) {
+            categoryProgress[category] = (categoryProgress[category] || 0) + 1;
+        }
+    });
+    
+    // Update circles based on progress
+    Object.keys(categoryProgress).forEach(category => {
+        const circle = document.querySelector(`.step-circle.${category}`);
+        if (circle) {
+            circle.classList.add('completed');
+            
+            // Add completion animation
+            setTimeout(() => {
+                circle.style.animation = 'bounce 0.6s ease';
+            }, 300);
+        }
+    });
+    
+    // Check if user is expert level (completed all)
+    if (completedTopics.length >= 6) {
+        const expertCircle = document.querySelector('.step-circle.expert');
+        if (expertCircle) {
+            expertCircle.classList.add('completed');
+            expertCircle.style.animation = 'siri-pulse 2s infinite';
+        }
+    }
+}
+
+function markTopicCompleted(topic) {
+    const completedTopics = JSON.parse(localStorage.getItem('completedTopics') || '[]');
+    if (!completedTopics.includes(topic)) {
+        completedTopics.push(topic);
+        localStorage.setItem('completedTopics', JSON.stringify(completedTopics));
+    }
+}
+
+// Quick access functions
+function quickStartTour() {
+    const steps = [
+        {
+            element: '.stats-card',
+            message: 'These cards show your learning progress and recent analysis statistics.'
+        },
+        {
+            element: '.server-card h4',
+            message: 'Click on any topic to start learning about log analysis fundamentals.'
+        },
+        {
+            element: '[href*="upload"]',
+            message: 'Upload your own log files to practice analysis with real data.'
+        },
+        {
+            element: '[href*="assistant"]',
+            message: 'Ask our AI assistant any questions about log analysis.'
+        }
+    ];
+    
+    let currentStep = 0;
+    
+    function showStep(step) {
+        const element = document.querySelector(steps[step].element);
+        if (element) {
+            // Highlight element
+            element.style.outline = '3px solid #00d4ff';
+            element.style.outlineOffset = '5px';
+            
+            // Show message
+            const message = document.createElement('div');
+            message.className = 'tour-message';
+            message.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: var(--card-bg);
+                color: var(--text-light);
+                padding: 20px;
+                border-radius: 10px;
+                border: 2px solid var(--aqua-blue);
+                z-index: 1000;
+                max-width: 400px;
+                text-align: center;
+            `;
+            message.innerHTML = `
+                <h5 class="text-aqua">Step ${step + 1} of ${steps.length}</h5>
+                <p>${steps[step].message}</p>
+                <button onclick="nextStep()" class="btn btn-primary me-2">Next</button>
+                <button onclick="endTour()" class="btn btn-outline-secondary">Skip Tour</button>
+            `;
+            document.body.appendChild(message);
+        }
+    }
+    
+    window.nextStep = function() {
+        // Remove current highlight and message
+        document.querySelectorAll('.tour-message').forEach(msg => msg.remove());
+        const currentElement = document.querySelector(steps[currentStep].element);
+        if (currentElement) {
+            currentElement.style.outline = '';
+            currentElement.style.outlineOffset = '';
+        }
+        
+        currentStep++;
+        if (currentStep < steps.length) {
+            showStep(currentStep);
+        } else {
+            endTour();
+        }
+    };
+    
+    window.endTour = function() {
+        document.querySelectorAll('.tour-message').forEach(msg => msg.remove());
+        const currentElement = document.querySelector(steps[currentStep]?.element);
+        if (currentElement) {
+            currentElement.style.outline = '';
+            currentElement.style.outlineOffset = '';
+        }
+        localStorage.setItem('tourCompleted', 'true');
+    };
+    
+    showStep(currentStep);
+}
+
+// Initialize when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('🚀 Dashboard initialized');
+    initializeEducationalFeatures();
+    
+    // Show tour for first-time users
+    if (!localStorage.getItem('tourCompleted')) {
+        setTimeout(() => {
+            if (confirm('Would you like a quick tour of the dashboard features?')) {
+                quickStartTour();
+            } else {
+                localStorage.setItem('tourCompleted', 'true');
+            }
+        }, 1000);
+    }
+    
+    // Add welcome message for returning users
+    const userName = localStorage.getItem('userName') || 'Learning Enthusiast';
+    const welcomeArea = document.querySelector('.container h1');
+    if (welcomeArea) {
+        const completedTopics = JSON.parse(localStorage.getItem('completedTopics') || '[]');
+        if (completedTopics.length > 0) {
+            const subtitle = welcomeArea.nextElementSibling;
+            subtitle.innerHTML = `Welcome back, ${userName}! You've completed ${completedTopics.length} topics. Keep learning!`;
+            subtitle.className = 'text-server-green';
+        }
+    }
+    
+    // Add click handlers for progress steps
+    document.querySelectorAll('.step-circle').forEach(circle => {
+        circle.addEventListener('click', function() {
+            const stepType = this.className.split(' ')[1];
+            showStepInfo(stepType);
+        });
+        
+        // Add hover tooltip
+        circle.setAttribute('title', getStepDescription(circle.className.split(' ')[1]));
+    });
+    
+    // Add section navigation
+    document.querySelectorAll('h3').forEach(header => {
+        if (header.textContent.includes('Fundamentals') || 
+            header.textContent.includes('Problem Identification') || 
+            header.textContent.includes('Advanced')) {
+            header.style.cursor = 'pointer';
+            header.addEventListener('click', function() {
+                this.nextElementSibling.scrollIntoView({ 
+                    behavior: 'smooth',
+                    block: 'center'
+                });
+            });
+        }
+    });
+});
+
+function getStepDescription(stepType) {
+    const descriptions = {
+        'fundamentals': 'Learn the basics: What are logs and their types',
+        'identification': 'Identify common errors and patterns',
+        'analysis': 'Master advanced analysis techniques', 
+        'practices': 'Industry best practices and standards',
+        'troubleshooting': 'Systematic problem-solving methods',
+        'expert': 'Expert level - All topics mastered!'
+    };
+    return descriptions[stepType] || 'Learning step';
+}
+
+function showStepInfo(stepType) {
+    const info = {
+        'fundamentals': {
+            title: 'Fundamentals',
+            description: 'Start with the basics of log analysis',
+            topics: ['What are Logs?', 'Types of Logs'],
+            color: 'var(--server-green)'
+        },
+        'identification': {
+            title: 'Problem Identification', 
+            description: 'Learn to spot and categorize issues',
+            topics: ['Common Log Errors'],
+            color: 'var(--warning-orange)'
+        },
+        'analysis': {
+            title: 'Analysis Techniques',
+            description: 'Master advanced analytical methods',
+            topics: ['Analysis Techniques'],
+            color: 'var(--aqua-blue)'
+        },
+        'practices': {
+            title: 'Best Practices',
+            description: 'Industry standards and recommendations',
+            topics: ['Best Practices'],
+            color: '#28a745'
+        },
+        'troubleshooting': {
+            title: 'Troubleshooting',
+            description: 'Systematic problem resolution',
+            topics: ['Troubleshooting Guide'],
+            color: 'var(--error-red)'
+        },
+        'expert': {
+            title: 'Expert Level',
+            description: 'Congratulations! You\'ve mastered log analysis',
+            topics: ['All Topics Completed'],
+            color: '#6f42c1'
+        }
+    };
+    
+    const stepInfo = info[stepType];
+    if (stepInfo) {
+        const modal = document.createElement('div');
+        modal.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1001;
+        `;
+        
+        modal.innerHTML = `
+            <div style="
+                background: var(--card-bg);
+                border: 2px solid ${stepInfo.color};
+                border-radius: 15px;
+                padding: 30px;
+                max-width: 400px;
+                text-align: center;
+                position: relative;
+            ">
+                <h4 style="color: ${stepInfo.color}; margin-bottom: 15px;">
+                    ${stepInfo.title}
+                </h4>
+                <p style="color: var(--text-light); margin-bottom: 20px;">
+                    ${stepInfo.description}
+                </p>
+                <div style="margin-bottom: 20px;">
+                    <strong style="color: var(--aqua-blue);">Topics:</strong><br>
+                    ${stepInfo.topics.map(topic => `<span style="color: var(--text-muted);">• ${topic}</span>`).join('<br>')}
+                </div>
+                <button onclick="this.closest('div').parentElement.remove()" 
+                        style="
+                            background: ${stepInfo.color};
+                            color: white;
+                            border: none;
+                            padding: 10px 20px;
+                            border-radius: 8px;
+                            cursor: pointer;
+                        ">
+                    Got it!
+                </button>
+            </div>
+        `;
+        
+        document.body.appendChild(modal);
+        
+        // Auto-close after 8 seconds
+        setTimeout(() => {
+            if (document.body.contains(modal)) {
+                modal.remove();
+            }
+        }, 8000);
+    }
+}
+
+// Add floating help button
+window.addEventListener('load', function() {
+    const helpButton = document.createElement('button');
+    helpButton.innerHTML = '<i class="fas fa-question-circle"></i>';
+    helpButton.className = 'btn btn-primary';
+    helpButton.style.cssText = `
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+        z-index: 1000;
+        box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
+    `;
+    helpButton.title = 'Get Help';
+    helpButton.onclick = function() {
+        const helpMenu = document.createElement('div');
+        helpMenu.style.cssText = `
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 15px;
+            z-index: 1001;
+            min-width: 200px;
+        `;
+        helpMenu.innerHTML = `
+            <h6 class="text-aqua">Quick Help</h6>
+            <button onclick="quickStartTour()" class="btn btn-sm btn-outline-primary w-100 mb-2">
+                <i class="fas fa-route me-2"></i>Take Tour
+            </button>
+            <a href="/knowledge" class="btn btn-sm btn-outline-info w-100 mb-2">
+                <i class="fas fa-book me-2"></i>Knowledge Base
+            </a>
+            <a href="/assistant" class="btn btn-sm btn-outline-success w-100">
+                <i class="fas fa-comments me-2"></i>Ask AI
+            </a>
+            <button onclick="this.parentElement.remove()" class="btn btn-sm btn-outline-secondary w-100 mt-2">
+                Close
+            </button>
+        `;
+        
+        // Remove existing menu if any
+        document.querySelectorAll('.help-menu').forEach(menu => menu.remove());
+        helpMenu.className = 'help-menu';
+        document.body.appendChild(helpMenu);
+        
+        // Auto-close after 10 seconds
+        setTimeout(() => {
+            if (document.body.contains(helpMenu)) {
+                helpMenu.remove();
+            }
+        }, 10000);
+    };
+    
+    document.body.appendChild(helpButton);
+});
+</script>
+{% endblock %}

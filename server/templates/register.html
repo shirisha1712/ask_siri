@@ -1,0 +1,506 @@
+{% extends "base.html" %}
+
+{% block title %}Register - Ask Siri{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="auth-card server-card">
+                <!-- Auth Header -->
+                <div class="text-center mb-4">
+                    <div class="auth-logo mb-3">
+                        <img src="{{ url_for('static', filename='images/siri-logo.png') }}" alt="Ask Siri Logo" class="siri-logo" style="width: 80px; height: 80px;">
+                    </div>
+                    <h2 class="text-aqua">Create Account</h2>
+                    <p class="text-muted">Join Ask Siri to start analyzing your logs</p>
+                </div>
+
+                <!-- Registration Form -->
+                <form method="POST" id="registerForm">
+                    
+                    <!-- Row 1: Username and Email -->
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="username" class="form-label">Username</label>
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="fas fa-user"></i>
+                                </span>
+                                <input type="text" name="username" id="username" class="form-control" placeholder="Choose a username" required>
+                            </div>
+                            <div class="form-text small">3-20 characters, letters and numbers only</div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="email" class="form-label">Email Address</label>
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="fas fa-envelope"></i>
+                                </span>
+                                <input type="email" name="email" id="email" class="form-control" placeholder="Enter your email" required>
+                            </div>
+                            <div class="form-text small">We'll never share your email</div>
+                        </div>
+                    </div>
+
+                    <!-- Row 2: Password and Confirm Password -->
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="password" class="form-label">Password</label>
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="fas fa-lock"></i>
+                                </span>
+                                <input type="password" name="password" id="password" class="form-control" placeholder="Create a strong password" required>
+                                <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                            <div class="password-strength mt-2">
+                                <div class="strength-meter">
+                                    <div class="strength-fill" id="strengthFill"></div>
+                                </div>
+                                <div class="strength-text small" id="strengthText">Enter a password</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="confirm_password" class="form-label">Confirm Password</label>
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="fas fa-lock"></i>
+                                </span>
+                                <input type="password" name="confirm_password" id="confirm_password" class="form-control" placeholder="Confirm your password" required>
+                                <span class="input-group-text" id="confirmCheck">
+                                    <i class="fas fa-question text-muted"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Role Selection -->
+                    <div class="form-group mb-3">
+                        <label class="form-label">Account Type</label>
+                        <div class="row role-selection">
+                            <div class="col-md-4">
+                                <div class="form-check text-center p-3 border rounded">
+                                    <input class="form-check-input" type="radio" name="role" id="roleAnalyst" value="analyst" checked>
+                                    <label class="form-check-label w-100" for="roleAnalyst">
+                                        <i class="fas fa-chart-line text-primary mb-2 d-block"></i>
+                                        <strong>Log Analyst</strong>
+                                        <div class="role-description small text-muted">Analyze logs and troubleshoot</div>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-check text-center p-3 border rounded">
+                                    <input class="form-check-input" type="radio" name="role" id="roleAdmin" value="admin">
+                                    <label class="form-check-label w-100" for="roleAdmin">
+                                        <i class="fas fa-server text-success mb-2 d-block"></i>
+                                        <strong>System Admin</strong>
+                                        <div class="role-description small text-muted">Manage infrastructure</div>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-check text-center p-3 border rounded">
+                                    <input class="form-check-input" type="radio" name="role" id="roleDeveloper" value="developer">
+                                    <label class="form-check-label w-100" for="roleDeveloper">
+                                        <i class="fas fa-code text-warning mb-2 d-block"></i>
+                                        <strong>Developer</strong>
+                                        <div class="role-description small text-muted">Debug applications</div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Terms and Newsletter in Row -->
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="agreeTerms" required>
+                                <label class="form-check-label" for="agreeTerms">
+                                    I agree to the <a href="#" class="text-aqua">Terms</a> and 
+                                    <a href="#" class="text-aqua">Privacy Policy</a>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="newsletter" checked>
+                                <label class="form-check-label" for="newsletter">
+                                    Send me tips and updates
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="form-group mb-3">
+                        <button type="submit" class="btn btn-primary w-100 btn-lg" id="registerBtn" disabled>
+                            <i class="fas fa-user-plus me-2"></i>Create Account
+                        </button>
+                    </div>
+
+                    <!-- Social Registration -->
+                    <div class="social-login">
+                        <div class="divider">
+                            <span>or sign up with</span>
+                        </div>
+                        <div class="row g-2">
+                            <div class="col-6">
+                                <button type="button" class="btn btn-outline-secondary w-100" onclick="socialRegister('google')">
+                                    <i class="fab fa-google me-2"></i>Google
+                                </button>
+                            </div>
+                            <div class="col-6">
+                                <button type="button" class="btn btn-outline-secondary w-100" onclick="socialRegister('github')">
+                                    <i class="fab fa-github me-2"></i>GitHub
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <!-- Login Link -->
+                <div class="auth-footer text-center mt-4 pt-3 border-top border-secondary">
+                    <p class="text-muted mb-0">
+                        Already have an account?
+                        <a href="{{ url_for('login') }}" class="text-aqua">Sign in here</a>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Benefits Section -->
+            <div class="benefits-section mt-4">
+                <div class="server-card">
+                    <h6 class="text-aqua mb-3">
+                        <i class="fas fa-star me-2"></i>Why Join Ask Siri?
+                    </h6>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <div class="benefit-item">
+                                <i class="fas fa-brain text-primary"></i>
+                                <span>AI-Powered Analysis</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="benefit-item">
+                                <i class="fas fa-chart-line text-success"></i>
+                                <span>Real-time Monitoring</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="benefit-item">
+                                <i class="fas fa-graduation-cap text-info"></i>
+                                <span>Learning Resources</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="benefit-item">
+                                <i class="fas fa-shield-alt text-warning"></i>
+                                <span>Secure & Private</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    setupRegistrationForm();
+});
+
+function setupRegistrationForm() {
+    const form = document.getElementById('registerForm');
+    const registerBtn = document.getElementById('registerBtn');
+    const togglePassword = document.getElementById('togglePassword');
+    const passwordField = document.querySelector('input[name="password"]');
+    const confirmField = document.querySelector('input[name="confirm_password"]');
+    const usernameField = document.querySelector('input[name="username"]');
+    const emailField = document.querySelector('input[name="email"]');
+    const agreeTerms = document.getElementById('agreeTerms');
+    
+    // Password visibility toggle
+    if (togglePassword && passwordField) {
+        togglePassword.addEventListener('click', function() {
+            const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordField.setAttribute('type', type);
+            
+            const icon = this.querySelector('i');
+            icon.className = type === 'password' ? 'fas fa-eye' : 'fas fa-eye-slash';
+        });
+    }
+    
+    // Password strength checker
+    if (passwordField) {
+        passwordField.addEventListener('input', checkPasswordStrength);
+    }
+    
+    // Real-time validation
+    if (usernameField) {
+        usernameField.addEventListener('input', validateUsername);
+    }
+    
+    if (emailField) {
+        emailField.addEventListener('input', validateEmail);
+    }
+    
+    if (confirmField) {
+        confirmField.addEventListener('input', validatePasswordMatch);
+    }
+    
+    // Form validation
+    function updateSubmitButton() {
+        const isValid = form.checkValidity() && agreeTerms.checked;
+        registerBtn.disabled = !isValid;
+    }
+    
+    // Check validation on input changes
+    form.addEventListener('input', updateSubmitButton);
+    agreeTerms.addEventListener('change', updateSubmitButton);
+    
+    // Form submission
+    form.addEventListener('submit', function(e) {
+        registerBtn.disabled = true;
+        registerBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Creating account...';
+        
+        // Re-enable button after 5 seconds to handle errors
+        setTimeout(() => {
+            registerBtn.disabled = false;
+            registerBtn.innerHTML = '<i class="fas fa-user-plus me-2"></i>Create Account';
+        }, 5000);
+    });
+}
+
+function checkPasswordStrength() {
+    const password = this.value;
+    const strengthFill = document.getElementById('strengthFill');
+    const strengthText = document.getElementById('strengthText');
+    
+    let strength = 0;
+    let feedback = '';
+    
+    if (password.length >= 8) strength++;
+    if (/[a-z]/.test(password)) strength++;
+    if (/[A-Z]/.test(password)) strength++;
+    if (/[0-9]/.test(password)) strength++;
+    if (/[^a-zA-Z0-9]/.test(password)) strength++;
+    
+    const strengthLevels = [
+        { text: 'Very Weak', class: 'very-weak', width: '20%' },
+        { text: 'Weak', class: 'weak', width: '40%' },
+        { text: 'Fair', class: 'fair', width: '60%' },
+        { text: 'Good', class: 'good', width: '80%' },
+        { text: 'Strong', class: 'strong', width: '100%' }
+    ];
+    
+    if (password.length === 0) {
+        strengthFill.style.width = '0%';
+        strengthFill.className = 'strength-fill';
+        strengthText.textContent = 'Enter a password';
+        strengthText.className = 'strength-text';
+        return;
+    }
+    
+    const level = strengthLevels[Math.min(strength, 4)];
+    strengthFill.style.width = level.width;
+    strengthFill.className = `strength-fill ${level.class}`;
+    strengthText.textContent = level.text;
+    strengthText.className = `strength-text ${level.class}`;
+}
+
+function validateUsername() {
+    const username = this.value;
+    const check = document.getElementById('usernameCheck');
+    const icon = check.querySelector('i');
+    
+    if (username.length < 3) {
+        icon.className = 'fas fa-exclamation-triangle text-warning';
+        return;
+    }
+    
+    if (!/^[a-zA-Z0-9]+$/.test(username)) {
+        icon.className = 'fas fa-times text-danger';
+        return;
+    }
+    
+    // Simulate username availability check
+    setTimeout(() => {
+        if (this.value === username) { // Still the same value
+            icon.className = 'fas fa-check text-success';
+        }
+    }, 500);
+    
+    icon.className = 'fas fa-spinner fa-spin text-info';
+}
+
+function validateEmail() {
+    const email = this.value;
+    const check = document.getElementById('emailCheck');
+    const icon = check.querySelector('i');
+    
+    if (email.length === 0) {
+        icon.className = 'fas fa-question text-muted';
+        return;
+    }
+    
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (emailRegex.test(email)) {
+        icon.className = 'fas fa-check text-success';
+    } else {
+        icon.className = 'fas fa-times text-danger';
+    }
+}
+
+function validatePasswordMatch() {
+    const password = document.querySelector('input[name="password"]').value;
+    const confirm = this.value;
+    const check = document.getElementById('confirmCheck');
+    const icon = check.querySelector('i');
+    
+    if (confirm.length === 0) {
+        icon.className = 'fas fa-question text-muted';
+        return;
+    }
+    
+    if (password === confirm) {
+        icon.className = 'fas fa-check text-success';
+    } else {
+        icon.className = 'fas fa-times text-danger';
+    }
+}
+
+function socialRegister(provider) {
+    // Simulate social registration
+    const button = event.target.closest('button');
+    const originalHTML = button.innerHTML;
+    
+    button.disabled = true;
+    button.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Connecting...';
+    
+    setTimeout(() => {
+        button.disabled = false;
+        button.innerHTML = originalHTML;
+        
+        // Show message
+        showNotification(`${provider.charAt(0).toUpperCase() + provider.slice(1)} registration coming soon!`, 'info');
+    }, 2000);
+}
+
+function showNotification(message, type) {
+    const notification = document.createElement('div');
+    notification.className = `alert alert-${type} alert-dismissible fade show position-fixed`;
+    notification.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+    notification.innerHTML = `
+        ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    `;
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.remove();
+    }, 5000);
+}
+</script>
+
+<style>
+.role-selection .form-check {
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.role-selection .form-check:hover {
+    border-color: var(--primary-color);
+    background-color: rgba(0, 212, 255, 0.05);
+}
+
+.role-selection .form-check-input:checked ~ .form-check-label {
+    color: var(--primary-color);
+}
+
+.role-description {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    margin-top: 0.25rem;
+}
+
+.password-strength {
+    margin-top: 0.5rem;
+}
+
+.strength-meter {
+    height: 4px;
+    background-color: var(--border-color);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: 0.25rem;
+}
+
+.strength-fill {
+    height: 100%;
+    transition: all 0.3s ease;
+    border-radius: 2px;
+}
+
+.strength-fill.very-weak { background-color: #dc3545; }
+.strength-fill.weak { background-color: #fd7e14; }
+.strength-fill.fair { background-color: #ffc107; }
+.strength-fill.good { background-color: #20c997; }
+.strength-fill.strong { background-color: #198754; }
+
+.strength-text {
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.strength-text.very-weak { color: #dc3545; }
+.strength-text.weak { color: #fd7e14; }
+.strength-text.fair { color: #ffc107; }
+.strength-text.good { color: #20c997; }
+.strength-text.strong { color: #198754; }
+
+.benefit-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+}
+
+.benefit-item i {
+    font-size: 1rem;
+}
+
+.divider {
+    position: relative;
+    text-align: center;
+    margin: 1.5rem 0;
+}
+
+.divider::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--border-color);
+}
+
+.divider span {
+    background: var(--bg-primary);
+    padding: 0 1rem;
+    color: var(--text-muted);
+    font-size: 0.875rem;
+}
+</style>
+{% endblock %}

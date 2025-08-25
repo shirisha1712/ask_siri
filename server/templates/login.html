@@ -1,0 +1,267 @@
+{% extends "base.html" %}
+
+{% block title %}Login - Ask Siri{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="auth-card server-card">
+                <!-- Auth Header -->
+                <div class="text-center mb-4">
+                    <div class="auth-logo mb-3">
+                        <img src="{{ url_for('static', filename='images/siri-logo.png') }}" alt="Ask Siri Logo" class="siri-logo" style="width: 80px; height: 80px;">
+                    </div>
+                    <h2 class="text-aqua">Welcome Back</h2>
+                    <p class="text-muted">Sign in to your Ask Siri account</p>
+                </div>
+
+                <!-- Login Form -->
+                <form method="POST" id="loginForm">
+                    <!-- Username Field -->
+                    <div class="form-group mb-3">
+                        <label for="username" class="form-label">Username</label>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="fas fa-user"></i>
+                            </span>
+                            <input type="text" class="form-control" id="username" name="username" placeholder="Enter your username" required>
+                        </div>
+                    </div>
+
+                    <!-- Password Field -->
+                    <div class="form-group mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="fas fa-lock"></i>
+                            </span>
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required>
+                            <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Remember Me -->
+                    <div class="form-group mb-3">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="remember_me" name="remember_me">
+                            <label class="form-check-label" for="remember_me">
+                                Remember me for 30 days
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="form-group mb-3">
+                        <button type="submit" class="btn btn-primary w-100 btn-lg" id="loginBtn">
+                            <i class="fas fa-sign-in-alt me-2"></i>Sign In
+                        </button>
+                    </div>
+
+                    <!-- Forgot Password -->
+                    <div class="text-center mb-3">
+                        <a href="#" onclick="showNotification('Password reset feature coming soon!', 'info')" class="text-muted small">
+                            Forgot your password?
+                        </a>
+                    </div>
+
+                    <!-- Social Login (Optional) -->
+                    <div class="social-login">
+                        <div class="divider">
+                            <span>or continue with</span>
+                        </div>
+                        <div class="row g-2">
+                            <div class="col-6">
+                                <button type="button" class="btn btn-outline-secondary w-100" onclick="socialLogin('google')">
+                                    <i class="fab fa-google me-2"></i>Google
+                                </button>
+                            </div>
+                            <div class="col-6">
+                                <button type="button" class="btn btn-outline-secondary w-100" onclick="socialLogin('github')">
+                                    <i class="fab fa-github me-2"></i>GitHub
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <!-- Register Link -->
+                <div class="auth-footer text-center mt-4 pt-3 border-top border-secondary">
+                    <p class="text-muted mb-0">
+                        Don't have an account?
+                        <a href="{{ url_for('register') }}" class="text-aqua">Create one here</a>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Demo Accounts (for testing) -->
+            <div class="demo-accounts mt-4">
+                <div class="server-card">
+                    <h6 class="text-aqua mb-3">
+                        <i class="fas fa-user-cog me-2"></i>Demo Accounts
+                    </h6>
+                    <div class="row g-2">
+                        <div class="col-md-6">
+                            <button class="btn btn-outline-info w-100 btn-sm" onclick="fillDemoAccount('admin')">
+                                <i class="fas fa-user-shield me-1"></i>Admin Demo
+                            </button>
+                        </div>
+                        <div class="col-md-6">
+                            <button class="btn btn-outline-success w-100 btn-sm" onclick="fillDemoAccount('user')">
+                                <i class="fas fa-user me-1"></i>User Demo
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    setupLoginForm();
+});
+
+function setupLoginForm() {
+    const form = document.getElementById('loginForm');
+    const loginBtn = document.getElementById('loginBtn');
+    const togglePassword = document.getElementById('togglePassword');
+    const passwordField = document.querySelector('input[name="password"]');
+    
+    // Password visibility toggle
+    if (togglePassword && passwordField) {
+        togglePassword.addEventListener('click', function() {
+            const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordField.setAttribute('type', type);
+            
+            const icon = this.querySelector('i');
+            icon.className = type === 'password' ? 'fas fa-eye' : 'fas fa-eye-slash';
+        });
+    }
+    
+    // Form submission
+    form.addEventListener('submit', function(e) {
+        loginBtn.disabled = true;
+        loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Signing in...';
+        
+        // Re-enable button after 5 seconds to handle errors
+        setTimeout(() => {
+            loginBtn.disabled = false;
+            loginBtn.innerHTML = '<i class="fas fa-sign-in-alt me-2"></i>Sign In';
+        }, 5000);
+    });
+    
+    // Auto-focus first empty field
+    const emailField = document.querySelector('input[name="email"]');
+    if (emailField && !emailField.value) {
+        emailField.focus();
+    } else if (passwordField && !passwordField.value) {
+        passwordField.focus();
+    }
+}
+
+function fillDemoAccount(type) {
+    const usernameField = document.querySelector('input[name="username"]');
+    const passwordField = document.querySelector('input[name="password"]');
+    
+    if (type === 'admin') {
+        usernameField.value = 'admin';
+        passwordField.value = 'admin123';
+    } else if (type === 'user') {
+        usernameField.value = 'demo_user';
+        passwordField.value = 'demo123';
+    }
+    
+    // Add visual feedback
+    [usernameField, passwordField].forEach(field => {
+        field.classList.add('demo-filled');
+        setTimeout(() => field.classList.remove('demo-filled'), 1000);
+    });
+}
+
+function socialLogin(provider) {
+    // Simulate social login
+    const button = event.target.closest('button');
+    const originalHTML = button.innerHTML;
+    
+    button.disabled = true;
+    button.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Connecting...';
+    
+    setTimeout(() => {
+        button.disabled = false;
+        button.innerHTML = originalHTML;
+        
+        // Show message
+        showNotification(`${provider.charAt(0).toUpperCase() + provider.slice(1)} login coming soon!`, 'info');
+    }, 2000);
+}
+
+function showNotification(message, type) {
+    const notification = document.createElement('div');
+    notification.className = `alert alert-${type} alert-dismissible fade show position-fixed`;
+    notification.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+    notification.innerHTML = `
+        ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    `;
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.remove();
+    }, 5000);
+}
+</script>
+
+<style>
+.demo-filled {
+    animation: demoFill 1s ease-in-out;
+}
+
+@keyframes demoFill {
+    0% { background-color: rgba(0, 212, 255, 0.1); }
+    50% { background-color: rgba(0, 212, 255, 0.2); }
+    100% { background-color: transparent; }
+}
+
+.divider {
+    position: relative;
+    text-align: center;
+    margin: 1.5rem 0;
+}
+
+.divider::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--border-color);
+}
+
+.divider span {
+    background: var(--bg-primary);
+    padding: 0 1rem;
+    color: var(--text-muted);
+    font-size: 0.875rem;
+}
+
+.demo-filled {
+    border-color: var(--server-green) !important;
+    box-shadow: 0 0 0 0.2rem rgba(0, 255, 136, 0.25) !important;
+    animation: demo-pulse 1s ease;
+}
+
+@keyframes demo-pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+    100% { transform: scale(1); }
+}
+</style>
+{% endblock %}

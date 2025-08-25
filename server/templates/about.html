@@ -1,0 +1,288 @@
+{% extends "base.html" %}
+
+{% block title %}About - Ask Siri{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <!-- Hero Section -->
+    <div class="row mb-5">
+        <div class="col-12 text-center">
+            <div class="about-hero">
+                <div class="about-logo mb-4">
+                    <img src="{{ url_for('static', filename='images/siri-logo.png') }}" alt="Ask Siri Logo" class="siri-logo-large">
+                </div>
+                <h1 class="display-4 text-aqua mb-3">About Ask Siri</h1>
+                <p class="lead text-light mb-4">
+                    Your AI-powered companion for intelligent log analysis and system troubleshooting
+                </p>
+                <div class="version-badge">
+                    <span class="badge bg-primary fs-6">Version 2.0</span>
+                    <span class="badge bg-success fs-6 ms-2">Open Source</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mission Section -->
+    <div class="row mb-5">
+        <div class="col-lg-8 mx-auto">
+            <div class="server-card text-center">
+                <h2 class="text-aqua mb-4">Our Mission</h2>
+                <p class="text-light fs-5 mb-4">
+                    To democratize log analysis and make system troubleshooting accessible to everyone, 
+                    from beginners learning the fundamentals to experienced engineers solving complex issues.
+                </p>
+                <div class="mission-stats row g-4 mt-4">
+                    <div class="col-md-4">
+                        <div class="stat-item">
+                            <h3 class="text-aqua">10,000+</h3>
+                            <p class="text-muted">Logs Analyzed</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="stat-item">
+                            <h3 class="text-aqua">500+</h3>
+                            <p class="text-muted">Issues Resolved</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="stat-item">
+                            <h3 class="text-aqua">99.9%</h3>
+                            <p class="text-muted">Uptime</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Features Overview -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <h2 class="text-aqua text-center mb-5">What Makes Ask Siri Special</h2>
+        </div>
+    </div>
+
+    <div class="row g-4 mb-5">
+        <div class="col-lg-4 col-md-6">
+            <div class="feature-card server-card h-100 text-center">
+                <div class="feature-icon mb-3">
+                    <i class="fas fa-brain fa-3x text-primary"></i>
+                </div>
+                <h4 class="text-light mb-3">AI-Powered Analysis</h4>
+                <p class="text-muted">
+                    Advanced Google Gemini AI integration provides intelligent insights and 
+                    contextual understanding of your log files.
+                </p>
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6">
+            <div class="feature-card server-card h-100 text-center">
+                <div class="feature-icon mb-3">
+                    <i class="fas fa-chart-line fa-3x text-success"></i>
+                </div>
+                <h4 class="text-light mb-3">Real-Time Monitoring</h4>
+                <p class="text-muted">
+                    Live dashboard with real-time metrics, system health monitoring, 
+                    and instant alerts for critical issues.
+                </p>
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6">
+            <div class="feature-card server-card h-100 text-center">
+                <div class="feature-icon mb-3">
+                    <i class="fas fa-graduation-cap fa-3x text-info"></i>
+                </div>
+                <h4 class="text-light mb-3">Educational Resources</h4>
+                <p class="text-muted">
+                    Comprehensive knowledge base with tutorials, best practices, 
+                    and step-by-step troubleshooting guides.
+                </p>
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6">
+            <div class="feature-card server-card h-100 text-center">
+                <div class="feature-icon mb-3">
+                    <i class="fas fa-comments fa-3x text-warning"></i>
+                </div>
+                <h4 class="text-light mb-3">Interactive Assistant</h4>
+                <p class="text-muted">
+                    Chat with our AI assistant to get instant help, explanations, 
+                    and personalized troubleshooting guidance.
+                </p>
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6">
+            <div class="feature-card server-card h-100 text-center">
+                <div class="feature-icon mb-3">
+                    <i class="fas fa-shield-alt fa-3x text-danger"></i>
+                </div>
+                <h4 class="text-light mb-3">Secure & Private</h4>
+                <p class="text-muted">
+                    Your log data is processed securely with encryption and 
+                    privacy-first architecture. No data retention without consent.
+                </p>
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6">
+            <div class="feature-card server-card h-100 text-center">
+                <div class="feature-icon mb-3">
+                    <i class="fas fa-users fa-3x text-aqua"></i>
+                </div>
+                <h4 class="text-light mb-3">Community Driven</h4>
+                <p class="text-muted">
+                    Built by the community, for the community. Open source 
+                    and constantly improving based on user feedback.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Technology Stack -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <div class="server-card">
+                <h2 class="text-aqua text-center mb-4">Built With Modern Technology</h2>
+                <div class="row g-4">
+                    <div class="col-lg-3 col-md-6 text-center">
+                        <div class="tech-item">
+                            <i class="fab fa-python fa-3x text-primary mb-2"></i>
+                            <h5 class="text-light">Flask & Python</h5>
+                            <p class="text-muted small">Robust backend framework</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 text-center">
+                        <div class="tech-item">
+                            <i class="fab fa-google fa-3x text-success mb-2"></i>
+                            <h5 class="text-light">Google Gemini AI</h5>
+                            <p class="text-muted small">Advanced AI analysis</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 text-center">
+                        <div class="tech-item">
+                            <i class="fab fa-bootstrap fa-3x text-info mb-2"></i>
+                            <h5 class="text-light">Bootstrap 5</h5>
+                            <p class="text-muted small">Responsive UI framework</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 text-center">
+                        <div class="tech-item">
+                            <i class="fas fa-chart-bar fa-3x text-warning mb-2"></i>
+                            <h5 class="text-light">Chart.js</h5>
+                            <p class="text-muted small">Interactive visualizations</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Team Section -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <div class="server-card text-center">
+                <h2 class="text-aqua mb-4">Development Team</h2>
+                <p class="text-light mb-4">
+                    Ask Siri is developed by a passionate team of engineers and data scientists 
+                    committed to making log analysis more accessible and effective.
+                </p>
+                <div class="row g-4 justify-content-center">
+                    <div class="col-md-4">
+                        <div class="team-member">
+                            <div class="member-avatar mx-auto mb-3">
+                                <i class="fas fa-user-tie fa-3x text-aqua"></i>
+                            </div>
+                            <h5 class="text-light">Development Team</h5>
+                            <p class="text-muted">Full-Stack Engineers</p>
+                            <p class="text-muted small">
+                                Specialized in AI integration, web development, 
+                                and system architecture
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="team-member">
+                            <div class="member-avatar mx-auto mb-3">
+                                <i class="fas fa-brain fa-3x text-success"></i>
+                            </div>
+                            <h5 class="text-light">AI Research Team</h5>
+                            <p class="text-muted">Data Scientists</p>
+                            <p class="text-muted small">
+                                Focused on improving AI analysis accuracy 
+                                and developing new algorithms
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact & Support -->
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <div class="server-card text-center">
+                <h2 class="text-aqua mb-4">Get Involved</h2>
+                <p class="text-light mb-4">
+                    We're always looking to improve Ask Siri and welcome contributions 
+                    from the community. Whether you're reporting bugs, suggesting features, 
+                    or contributing code, we'd love to hear from you!
+                </p>
+                <div class="row g-3 justify-content-center">
+                    <div class="col-md-4">
+                        <a href="#" class="btn btn-outline-primary w-100">
+                            <i class="fab fa-github me-2"></i>View on GitHub
+                        </a>
+                    </div>
+                    <div class="col-md-4">
+                        <a href="#" class="btn btn-outline-success w-100">
+                            <i class="fas fa-bug me-2"></i>Report Issues
+                        </a>
+                    </div>
+                    <div class="col-md-4">
+                        <a href="#" class="btn btn-outline-info w-100">
+                            <i class="fas fa-envelope me-2"></i>Contact Us
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Add some animation to the stats
+    animateCounters();
+});
+
+function animateCounters() {
+    const counters = document.querySelectorAll('.stat-item h3');
+    counters.forEach(counter => {
+        const target = parseInt(counter.textContent.replace(/[^\d]/g, ''));
+        let current = 0;
+        const increment = target / 100;
+        const timer = setInterval(() => {
+            current += increment;
+            if (current >= target) {
+                current = target;
+                clearInterval(timer);
+            }
+            
+            let suffix = '';
+            if (counter.textContent.includes('+')) suffix = '+';
+            if (counter.textContent.includes('%')) suffix = '%';
+            
+            counter.textContent = Math.floor(current).toLocaleString() + suffix;
+        }, 20);
+    });
+}
+</script>
+{% endblock %}

@@ -1,0 +1,19 @@
+[2025-08-25T10:15:30.123Z] INFO (user-service/12345): Server starting on port 3001 {"pid":12345,"hostname":"user-service-pod-abc123"}
+[2025-08-25T10:15:30.234Z] INFO (user-service/12345): Connected to MongoDB: mongodb://mongo-cluster:27017/userdb
+[2025-08-25T10:15:45.345Z] ERROR (user-service/12345): Authentication failed {"userId":"unknown","email":"john.doe@example.com","ip":"192.168.1.101","userAgent":"curl/7.68.0"}
+[2025-08-25T10:16:01.456Z] WARN (user-service/12345): Slow database query detected {"query":"findUserProfile","duration":3200,"collection":"users"}
+[2025-08-25T10:16:15.567Z] ERROR (upload-service/12346): File size exceeds limit {"filename":"large_file.zip","size":52428800,"limit":10485760,"userId":"user_12345"}
+[2025-08-25T10:16:22.678Z] DEBUG (cache-service/12347): Cache hit {"key":"user_profile_12345","ttl":3600,"service":"user-service"}
+[2025-08-25T10:16:33.789Z] ERROR (auth-service/12348): Access denied for protected resource {"userId":"guest","resource":"/admin/users","method":"DELETE","ip":"192.168.1.105"}
+[2025-08-25T10:16:44.890Z] FATAL (analytics-service/12349): Database connection lost {"error":"MongoNetworkError","message":"connection timed out","attempts":3}
+[2025-08-25T10:16:55.901Z] WARN (validation-service/12350): Invalid request payload {"endpoint":"/api/settings","error":"ValidationError","field":"email","value":"invalid-email"}
+[2025-08-25T10:17:06.012Z] INFO (health-service/12351): All services healthy {"services":["user-service","auth-service","upload-service","analytics-service"],"responseTime":"15ms"}
+[2025-08-25T10:17:17.123Z] ERROR (rate-limiter/12352): Rate limit exceeded {"ip":"192.168.1.109","endpoint":"/api/password-reset","limit":10,"window":"60s","current":11}
+[2025-08-25T10:17:28.234Z] WARN (routing-service/12353): Route not found {"path":"/admin/logs","method":"GET","ip":"192.168.1.110","userAgent":"Mozilla/5.0"}
+[2025-08-25T10:17:39.345Z] DEBUG (cors-service/12354): CORS preflight successful {"origin":"https://frontend.example.com","method":"POST","headers":"content-type,authorization"}
+[2025-08-25T10:17:50.456Z] INFO (bot-detector/12355): Bot request detected {"userAgent":"Googlebot/2.1","ip":"192.168.1.112","path":"/robots.txt","action":"allow"}
+[2025-08-25T10:18:01.567Z] INFO (feedback-service/12356): Feedback submitted {"userId":"anonymous","rating":5,"category":"general","timestamp":"2025-08-25T10:18:01.567Z"}
+[2025-08-25T10:18:12.678Z] DEBUG (metrics-service/12357): Metrics collected {"services":15,"metrics":247,"errors":3,"warnings":8,"duration":"234ms"}
+[2025-08-25T10:18:23.789Z] WARN (user-service/12345): High memory usage detected {"usage":"456MB","limit":"512MB","percentage":89}
+[2025-08-25T10:18:34.890Z] ERROR (payment-service/12358): Payment processing failed {"orderId":"order_789","amount":99.99,"error":"InvalidCardError","cardLast4":"1234"}
+[2025-08-25T10:18:45.901Z] INFO (notification-service/12359): Email sent successfully {"to":"user@example.com","subject":"Password Reset","provider":"SendGrid","messageId":"abc123def456"}

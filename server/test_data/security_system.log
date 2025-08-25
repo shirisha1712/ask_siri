@@ -1,0 +1,20 @@
+Aug 25 10:15:30 web-server-01 sshd[12345]: Accepted publickey for admin from 192.168.1.200 port 22 ssh2: RSA SHA256:abc123def456
+Aug 25 10:15:45 web-server-01 sshd[12346]: Failed password for invalid user hacker from 203.0.113.10 port 22 ssh2
+Aug 25 10:15:46 web-server-01 sshd[12346]: Connection closed by invalid user hacker 203.0.113.10 port 22 [preauth]
+Aug 25 10:16:01 web-server-01 sudo: admin : TTY=pts/0 ; PWD=/home/admin ; USER=root ; COMMAND=/bin/systemctl restart nginx
+Aug 25 10:16:15 web-server-01 fail2ban.actions[1234]: NOTICE [sshd] Ban 203.0.113.10
+Aug 25 10:16:22 web-server-01 kernel: [12345.678] iptables: DROP IN=eth0 OUT= MAC=00:11:22:33:44:55:66:77:88:99:aa:bb:08:00 SRC=10.0.0.1 DST=192.168.1.100 LEN=40 TOS=0x00 PREC=0x00 TTL=64 ID=12345 PROTO=TCP SPT=12345 DPT=443 WINDOW=65535 RES=0x00 SYN URGP=0
+Aug 25 10:16:33 web-server-01 sshd[12347]: Invalid user admin123 from 198.51.100.5 port 22
+Aug 25 10:16:44 web-server-01 su: FAILED SU (to root) www-data on /dev/pts/1
+Aug 25 10:16:55 web-server-01 sshd[12348]: Accepted password for developer from 192.168.1.201 port 22 ssh2
+Aug 25 10:17:06 web-server-01 systemd[1]: Started Security Audit Service
+Aug 25 10:17:17 web-server-01 sshd[12349]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=203.0.113.20 user=root
+Aug 25 10:17:28 web-server-01 kernel: [12678.901] TCP: Possible SYN flooding on port 80. Sending cookies. Check SNMP counters.
+Aug 25 10:17:39 web-server-01 sshd[12350]: Received disconnect from 192.168.1.201 port 22:11: disconnected by user
+Aug 25 10:17:50 web-server-01 fail2ban.actions[1234]: NOTICE [nginx-limit-req] Ban 203.0.113.25
+Aug 25 10:18:01 web-server-01 sudo: developer : TTY=pts/1 ; PWD=/var/log ; USER=root ; COMMAND=/bin/tail -f /var/log/access.log
+Aug 25 10:18:12 web-server-01 sshd[12351]: User admin from 192.168.1.200 not allowed because not listed in AllowUsers
+Aug 25 10:18:23 web-server-01 kernel: [12890.123] Out of memory: Kill process 12345 (chrome) score 123 or sacrifice child
+Aug 25 10:18:34 web-server-01 sshd[12352]: Accepted publickey for monitoring from 192.168.1.202 port 22 ssh2: ED25519 SHA256:xyz789uvw456
+Aug 25 10:18:45 web-server-01 systemd-logind[890]: New session 45 of user monitoring
+Aug 25 10:18:56 web-server-01 fail2ban.actions[1234]: NOTICE [sshd] Unban 203.0.113.10

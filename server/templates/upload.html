@@ -1,0 +1,194 @@
+{% extends "base.html" %}
+
+{% block title %}Upload & Analyze Logs - Ask Siri{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <!-- Page Header -->
+            <div class="text-center mb-5">
+                <h1 class="text-aqua">Upload & Analyze Logs</h1>
+                <p class="text-muted">Upload your log files or paste log content to get AI-powered analysis</p>
+            </div>
+
+            <!-- Upload Form -->
+            <div class="server-card">
+                <form id="upload-form">
+                    <!-- File Upload Section -->
+                    <div class="mb-4">
+                        <label for="log-files" class="form-label">
+                            <i class="fas fa-file-upload me-2"></i>Upload Log Files
+                        </label>
+                        <input type="file" 
+                               class="form-control" 
+                               id="log-files" 
+                               multiple 
+                               accept=".log,.txt,.json">
+                        <div class="form-text text-muted">
+                            <i class="fas fa-info-circle me-1"></i>
+                            Supports multiple files. Accepted formats: .log, .txt, .json
+                        </div>
+                    </div>
+
+                    <!-- Text Input Section -->
+                    <div class="mb-4">
+                        <label for="log-text" class="form-label">
+                            <i class="fas fa-paste me-2"></i>Or Paste Log Content
+                        </label>
+                        <textarea class="form-control" 
+                                  id="log-text" 
+                                  rows="8" 
+                                  placeholder="Paste your log data here..."></textarea>
+                        <div class="form-text text-muted">
+                            <i class="fas fa-info-circle me-1"></i>
+                            Paste log content directly for quick analysis
+                        </div>
+                    </div>
+
+                    <!-- Query Input Section -->
+                    <div class="mb-4">
+                        <label for="prompt-input" class="form-label">
+                            <i class="fas fa-question-circle me-2"></i>What do you want to analyze?
+                        </label>
+                        <input type="text" 
+                               class="form-control" 
+                               id="prompt-input" 
+                               placeholder="e.g., Find all errors and their root causes" 
+                               required>
+                        <div class="form-text text-muted">
+                            <i class="fas fa-lightbulb me-1"></i>
+                            Try: "What database issues occurred?", "Analyze security threats", "Find performance bottlenecks"
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            <i class="fas fa-robot me-2"></i>Analyze with AI
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Loading State -->
+            <div id="loading" class="text-center mt-4" style="display: none;">
+                <div class="server-card">
+                    <div class="spinner-border text-aqua me-3" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <h4 class="text-aqua d-inline">Analyzing... Please wait</h4>
+                    <p class="text-muted mt-2">AI is processing your logs and generating insights</p>
+                </div>
+            </div>
+
+            <!-- Results Section -->
+            <div id="results" class="mt-4" style="display: none;">
+                <div class="server-card">
+                    <div class="d-flex align-items-center mb-3">
+                        <i class="fas fa-chart-line text-aqua me-2 fs-3"></i>
+                        <h2 class="text-aqua mb-0">Analysis Results</h2>
+                    </div>
+                    
+                    <!-- Statistics Cards -->
+                    <div id="stats-section" class="row g-3 mb-4" style="display: none;">
+                        <div class="col-md-3">
+                            <div class="stats-card">
+                                <span id="total-lines" class="stats-number">0</span>
+                                <div class="stats-label">Total Lines</div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="stats-card">
+                                <span id="error-count" class="stats-number text-danger">0</span>
+                                <div class="stats-label">Errors</div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="stats-card">
+                                <span id="warning-count" class="stats-number text-warning">0</span>
+                                <div class="stats-label">Warnings</div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="stats-card">
+                                <span id="critical-count" class="stats-number" style="color: var(--error-red);">0</span>
+                                <div class="stats-label">Critical</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Visualization Section -->
+                    <div id="visualization-section" class="row g-4 mb-4" style="display: none;">
+                        <div class="col-lg-6">
+                            <div class="chart-container">
+                                <h5 class="chart-title text-aqua">Log Level Distribution</h5>
+                                <canvas id="logDistributionChart" height="200"></canvas>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="chart-container">
+                                <h5 class="chart-title text-aqua">Timeline Overview</h5>
+                                <canvas id="timelineChart" height="200"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- AI Analysis Output -->
+                    <div class="log-viewer">
+                        <pre id="analysis-output" class="mb-0"></pre>
+                    </div>
+                    
+                    <!-- Action Buttons -->
+                    <div class="mt-3 text-end">
+                        <button class="btn btn-outline-primary" onclick="copyToClipboard()">
+                            <i class="fas fa-copy me-2"></i>Copy Results
+                        </button>
+                        {% if current_user.is_authenticated %}
+                        <button class="btn btn-outline-primary" onclick="saveAnalysis()">
+                            <i class="fas fa-save me-2"></i>Save to History
+                        </button>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Quick Examples Section -->
+<div class="container my-5">
+    <div class="row">
+        <div class="col-12 text-center mb-4">
+            <h3 class="text-aqua">Need Inspiration? Try These Examples</h3>
+        </div>
+    </div>
+    <div class="row g-3">
+        <div class="col-md-4">
+            <div class="server-card h-100">
+                <h5 class="text-aqua">Database Issues</h5>
+                <p class="text-muted small">"What database connection problems occurred and how can I fix them?"</p>
+                <button class="btn btn-sm btn-outline-primary" onclick="setExample(1)">Use This Query</button>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="server-card h-100">
+                <h5 class="text-aqua">Security Analysis</h5>
+                <p class="text-muted small">"Analyze security threats, failed logins, and suspicious activities."</p>
+                <button class="btn btn-sm btn-outline-primary" onclick="setExample(2)">Use This Query</button>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="server-card h-100">
+                <h5 class="text-aqua">Performance Issues</h5>
+                <p class="text-muted small">"Find performance bottlenecks, slow queries, and resource issues."</p>
+                <button class="btn btn-sm btn-outline-primary" onclick="setExample(3)">Use This Query</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/upload.js') }}"></script>
+{% endblock %}

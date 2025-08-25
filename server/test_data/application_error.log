@@ -1,0 +1,26 @@
+2025-08-25 10:15:32.123 INFO  [main] com.example.Application - Starting Application v2.1.0 on server-prod-01 with PID 12345
+2025-08-25 10:15:32.145 INFO  [main] com.example.config.DatabaseConfig - Connecting to database: postgresql://prod-db:5432/maindb
+2025-08-25 10:15:32.567 INFO  [main] com.example.Application - Started Application in 2.456 seconds
+2025-08-25 10:15:45.789 ERROR [http-nio-8080-exec-1] com.example.auth.AuthController - Authentication failed for user: john.doe@example.com
+java.lang.SecurityException: Invalid credentials
+	at com.example.auth.AuthService.authenticate(AuthService.java:45)
+	at com.example.auth.AuthController.login(AuthController.java:78)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+2025-08-25 10:16:01.234 WARN  [http-nio-8080-exec-2] com.example.service.UserService - Slow query detected: getUserProfile took 3.2 seconds
+2025-08-25 10:16:15.456 ERROR [http-nio-8080-exec-3] com.example.upload.FileController - File upload failed: size exceeds limit
+org.springframework.web.multipart.MaxUploadSizeExceededException: Maximum upload size exceeded
+	at org.springframework.web.multipart.support.StandardMultipartHttpServletRequest.<init>(StandardMultipartHttpServletRequest.java:102)
+2025-08-25 10:16:22.678 DEBUG [http-nio-8080-exec-4] com.example.cache.CacheManager - Cache hit for key: user_profile_12345
+2025-08-25 10:16:33.890 ERROR [http-nio-8080-exec-5] com.example.security.SecurityFilter - Access denied for user: guest trying to access /admin/users
+2025-08-25 10:16:44.123 FATAL [http-nio-8080-exec-6] com.example.service.AnalyticsService - Database connection pool exhausted
+java.sql.SQLException: Cannot get connection, pool exhausted
+	at com.zaxxer.hikari.pool.HikariPool.getConnection(HikariPool.java:123)
+	at com.example.repository.AnalyticsRepository.findAll(AnalyticsRepository.java:34)
+2025-08-25 10:16:55.345 WARN  [http-nio-8080-exec-7] com.example.validation.ValidationService - Invalid data format in request: missing required field 'email'
+2025-08-25 10:17:06.567 INFO  [scheduled-task-1] com.example.health.HealthCheck - Health check passed: all services operational
+2025-08-25 10:17:17.789 ERROR [http-nio-8080-exec-8] com.example.service.EmailService - Rate limit exceeded for IP: 192.168.1.109
+2025-08-25 10:17:28.012 WARN  [http-nio-8080-exec-9] com.example.controller.AdminController - Attempted access to non-existent endpoint: /admin/logs
+2025-08-25 10:17:39.234 DEBUG [http-nio-8080-exec-10] com.example.cors.CorsFilter - CORS preflight request allowed for origin: https://frontend.example.com
+2025-08-25 10:17:50.456 INFO  [crawler-detector] com.example.security.BotDetector - Bot detected: Googlebot/2.1 from IP 192.168.1.112
+2025-08-25 10:18:01.678 INFO  [http-nio-8080-exec-11] com.example.feedback.FeedbackController - New feedback submitted by user: anonymous
+2025-08-25 10:18:12.890 DEBUG [metrics-exporter] com.example.metrics.PrometheusExporter - Metrics exported successfully: 47 metrics
